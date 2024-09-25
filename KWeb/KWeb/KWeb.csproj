@@ -163,6 +163,16 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Styles\css\tabler-icons.css" />
+    <Content Include="Styles\images\logo-light.svg" />
+    <Content Include="Styles\css\simplebar.css" />
+    <Content Include="Styles\css\styles.min.css" />
+    <Content Include="Styles\js\app.min.js" />
+    <Content Include="Styles\js\bootstrap.bundle.js" />
+    <Content Include="Styles\js\dashboard.js" />
+    <Content Include="Styles\js\jquery.min.js" />
+    <Content Include="Styles\js\sidebarmenu.js" />
+    <Content Include="Styles\js\simplebar.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
