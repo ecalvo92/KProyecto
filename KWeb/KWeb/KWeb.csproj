@@ -121,6 +121,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -193,6 +194,10 @@
     <Content Include="Styles\css\fonts\tabler-icons.ttf" />
     <Content Include="Styles\css\fonts\tabler-icons.woff" />
     <Content Include="Styles\css\fonts\tabler-icons.woff2" />
+    <Content Include="Views\Login\InicioSesion.cshtml" />
+    <Content Include="Views\Shared\_LayoutExterno.cshtml" />
+    <Content Include="Views\Login\RegistroUsuario.cshtml" />
+    <Content Include="Views\Login\RecuperarAcceso.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
