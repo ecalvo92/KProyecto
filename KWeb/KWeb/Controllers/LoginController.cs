@@ -9,12 +9,20 @@ namespace KWeb.Controllers
 {
     public class LoginController : Controller
     {
-        public ActionResult InicioSesion()
+        [HttpGet]
+        public ActionResult RegistroUsuario()
         {
             return View();
         }
 
-        public ActionResult RegistroUsuario()
+        [HttpPost]
+        public ActionResult RegistroUsuario(Usuario model)
+        {
+            return View();
+        }
+
+
+        public ActionResult InicioSesion()
         {
             return View();
         }

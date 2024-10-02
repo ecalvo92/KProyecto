@@ -1,4 +1,6 @@
-﻿@{
+﻿@model KWeb.Models.Usuario
+
+@{
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 }
 
@@ -16,36 +18,37 @@
 
                             <p class="text-center">Registro de usuarios</p>
 
-                            <form>
+                            @using(Html.BeginForm("RegistroUsuario", "Login"))
+                            {
 
                                 <div class="mb-3">
                                     <label class="form-label">Identificación</label>
-                                    @Html.TextBox("Identificacion", "", new { @class="form-control" })
+                                    @Html.TextBoxFor(m => m.Identificacion, new { @class="form-control" })
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="form-label">Nombre</label>
-                                    @Html.TextBox("Nombre", "", new { @class = "form-control" })
+                                    @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="form-label">Correo Electrónico</label>
-                                    @Html.TextBox("CorreoElectronico", "", new { @class = "form-control", @type = "email" })
+                                    @Html.TextBoxFor(m => m.CorreoElectronico, new { @class = "form-control", @type = "email" })
                                 </div>
 
                                 <div class="mb-4">
                                     <label class="form-label">Contraseña</label>
-                                    @Html.TextBox("Contrasenna", "", new { @class = "form-control", @type = "password" })
+                                    @Html.TextBoxFor(m => m.Contrasenna, new { @class = "form-control", @type = "password" })
                                 </div>
 
-                                <a href="./index.html" class="btn btn-primary w-100 py-8 fs-4 mb-4">Procesar</a>
+                                <input type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4" value="Procesar">
 
                                 <div class="d-flex align-items-center justify-content-center">
                                     <p class="fs-4 mb-0 fw-bold">Ya tienes una cuenta?</p>
                                     <a class="text-primary fw-bold ms-2" href="@Url.Action("InicioSesion","Login")">Inicia Sesión</a>
                                 </div>
 
-                            </form>
+                            }
 
                         </div>
                     </div>
