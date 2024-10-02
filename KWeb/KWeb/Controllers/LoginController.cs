@@ -18,16 +18,36 @@ namespace KWeb.Controllers
         [HttpPost]
         public ActionResult RegistroUsuario(Usuario model)
         {
+
+            var comunes = new MetodosComunes();
+            var edad = comunes.CalcularEdad(1948);
+
+
             return View();
         }
 
 
+        [HttpGet]
         public ActionResult InicioSesion()
         {
             return View();
         }
 
+        [HttpPost]
+        public ActionResult InicioSesion(Usuario model)
+        {
+            return View();
+        }
+
+
+        [HttpGet]
         public ActionResult RecuperarAcceso()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RecuperarAcceso(Usuario model)
         {
             return View();
         }
