@@ -19,10 +19,6 @@ namespace KWeb.Controllers
         public ActionResult RegistroUsuario(Usuario model)
         {
 
-            var comunes = new MetodosComunes();
-            var edad = comunes.CalcularEdad(1948);
-
-
             return View();
         }
 
