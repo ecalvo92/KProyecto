@@ -18,9 +18,26 @@ namespace KWeb.Controllers
         [HttpPost]
         public ActionResult RegistroUsuario(Usuario model)
         {
+            using (var context = new KDataBaseEntities())
+            {
+                context.RegistroUsuario(model.Identificacion, model.Nombre, model.CorreoElectronico, model.Contrasenna);
 
-            return View();
+                //var tabla = new tUsuario();
+                //tabla.Consecutivo = 0;
+                //tabla.Identificacion = model.Identificacion;
+                //tabla.Nombre = model.Nombre;
+                //tabla.CorreoElectronico = model.CorreoElectronico;
+                //tabla.Contrasenna = model.Contrasenna;
+                //tabla.ConsecutivoRol = 2;
+                //tabla.Activo = true;
+
+                //context.tUsuario.Add(tabla);
+                //context.SaveChanges();
+            }
+
+            return RedirectToAction("InicioSesion", "Login");
         }
+
 
 
         [HttpGet]
@@ -32,8 +49,23 @@ namespace KWeb.Controllers
         [HttpPost]
         public ActionResult InicioSesion(Usuario model)
         {
+            using (var context = new KDataBaseEntities())
+            {
+                var datos = context.InicioSesion(model.Identificacion, model.Contrasenna).ToList();
+
+                //var datos = context.tUsuario.Where(x => x.Identificacion == model.Identificacion
+                //                                     && x.Contrasenna == model.Contrasenna
+                //                                     && x.Activo == true).ToList();
+
+                if (datos.Count() > 0)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
             return View();
         }
+
 
 
         [HttpGet]
@@ -45,6 +77,17 @@ namespace KWeb.Controllers
         [HttpPost]
         public ActionResult RecuperarAcceso(Usuario model)
         {
+            using (var context = new KDataBaseEntities())
+            {
+                var datos = context.tUsuario.Where(x => x.Identificacion == model.Identificacion).ToList();
+
+                if (datos.Count() > 0)
+                {
+                    //Mandar un correo
+                    return RedirectToAction("InicioSesion", "Login");
+                }
+            }
+
             return View();
         }
 

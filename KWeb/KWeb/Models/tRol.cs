@@ -14,9 +14,16 @@ namespace KWeb.Models
     
     public partial class tRol
     {
-        public long Consecutivo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tRol()
+        {
+            this.tUsuario = new HashSet<tUsuario>();
+        }
+    
+        public int Consecutivo { get; set; }
         public string NombreRol { get; set; }
     
-        public virtual tUsuario tUsuario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tUsuario> tUsuario { get; set; }
     }
 }
