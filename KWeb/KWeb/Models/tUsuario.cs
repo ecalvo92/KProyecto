@@ -21,6 +21,8 @@ namespace KWeb.Models
         public string Contrasenna { get; set; }
         public int ConsecutivoRol { get; set; }
         public bool Activo { get; set; }
+        public bool TieneContrasennaTemp { get; set; }
+        public System.DateTime FechaVencimientoTemp { get; set; }
     
         public virtual tRol tRol { get; set; }
     }

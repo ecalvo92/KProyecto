@@ -25,6 +25,8 @@ CREATE TABLE [dbo].[tUsuario](
 	[Contrasenna] [varchar](10) NOT NULL,
 	[ConsecutivoRol] [int] NOT NULL,
 	[Activo] [bit] NOT NULL,
+	[TieneContrasennaTemp] [bit] NOT NULL,
+	[FechaVencimientoTemp] [datetime] NOT NULL,
  CONSTRAINT [PK_tUsuario] PRIMARY KEY CLUSTERED 
 (
 	[Consecutivo] ASC
@@ -43,7 +45,9 @@ GO
 
 SET IDENTITY_INSERT [dbo].[tUsuario] ON 
 GO
-INSERT [dbo].[tUsuario] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [ConsecutivoRol], [Activo]) VALUES (2, N'304590415', N'Eduardo Calvo Castillo', N'ecalvo90415@ufide.ac.cr', N'90415', 2, 1)
+INSERT [dbo].[tUsuario] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [ConsecutivoRol], [Activo], [TieneContrasennaTemp], [FechaVencimientoTemp]) VALUES (2, N'304590415', N'Eduardo Calvo Castillo', N'ecalvo90415@ufide.ac.cr', N'90415', 2, 1, 0, CAST(N'2021-10-15T00:00:00.000' AS DateTime))
+GO
+INSERT [dbo].[tUsuario] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [ConsecutivoRol], [Activo], [TieneContrasennaTemp], [FechaVencimientoTemp]) VALUES (4, N'305530487', N'Keilyn Navarro', N'knavarro30487@ufide.ac.cr', N'02XDOW36C3', 2, 1, 1, CAST(N'2024-10-15T19:38:59.457' AS DateTime))
 GO
 SET IDENTITY_INSERT [dbo].[tUsuario] OFF
 GO
@@ -64,6 +68,23 @@ ALTER TABLE [dbo].[tUsuario]  WITH CHECK ADD  CONSTRAINT [FK_tUsuario_tRol] FORE
 REFERENCES [dbo].[tRol] ([Consecutivo])
 GO
 ALTER TABLE [dbo].[tUsuario] CHECK CONSTRAINT [FK_tUsuario_tRol]
+GO
+
+CREATE PROCEDURE [dbo].[ActualizarContrasenna]
+	@ContrasennaTemp		VARCHAR(80),
+	@TieneContrasennaTemp	BIT,
+	@FechaVencimientoTemp	DATETIME,
+	@Consecutivo			BIGINT
+AS
+BEGIN
+	
+	UPDATE	dbo.tUsuario
+	   SET	Contrasenna = @ContrasennaTemp,
+			TieneContrasennaTemp = @TieneContrasennaTemp,
+			FechaVencimientoTemp = @FechaVencimientoTemp
+	 WHERE	Consecutivo = @Consecutivo
+	
+END
 GO
 
 CREATE PROCEDURE [dbo].[InicioSesion]
@@ -97,8 +118,8 @@ CREATE PROCEDURE [dbo].[RegistroUsuario]
 AS
 BEGIN
 
-	INSERT INTO dbo.tUsuario (Identificacion,Nombre,CorreoElectronico,Contrasenna, ConsecutivoRol,Activo)
-    VALUES (@Identificacion,@Nombre,@CorreoElectronico,@Contrasenna,2,1)
+	INSERT INTO dbo.tUsuario (Identificacion,Nombre,CorreoElectronico,Contrasenna, ConsecutivoRol,Activo,TieneContrasennaTemp,FechaVencimientoTemp)
+    VALUES (@Identificacion,@Nombre,@CorreoElectronico,@Contrasenna,2,1,0,GETDATE())
 	
 END
 GO
