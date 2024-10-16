@@ -47,7 +47,7 @@ SET IDENTITY_INSERT [dbo].[tUsuario] ON
 GO
 INSERT [dbo].[tUsuario] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [ConsecutivoRol], [Activo], [TieneContrasennaTemp], [FechaVencimientoTemp]) VALUES (2, N'304590415', N'Eduardo Calvo Castillo', N'ecalvo90415@ufide.ac.cr', N'90415', 2, 1, 0, CAST(N'2021-10-15T00:00:00.000' AS DateTime))
 GO
-INSERT [dbo].[tUsuario] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [ConsecutivoRol], [Activo], [TieneContrasennaTemp], [FechaVencimientoTemp]) VALUES (4, N'305530487', N'Keilyn Navarro', N'knavarro30487@ufide.ac.cr', N'02XDOW36C3', 2, 1, 1, CAST(N'2024-10-15T19:38:59.457' AS DateTime))
+INSERT [dbo].[tUsuario] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [ConsecutivoRol], [Activo], [TieneContrasennaTemp], [FechaVencimientoTemp]) VALUES (4, N'305530487', N'Keilyn Navarro', N'knavarro30487@ufide.ac.cr', N'MX02HLGK3T', 2, 1, 1, CAST(N'2024-10-15T20:58:43.510' AS DateTime))
 GO
 SET IDENTITY_INSERT [dbo].[tUsuario] OFF
 GO
@@ -100,7 +100,9 @@ BEGIN
 			Contrasenna,
 			ConsecutivoRol,
 			Activo,
-			R.NombreRol
+			R.NombreRol,
+			TieneContrasennaTemp,
+			FechaVencimientoTemp
 	  FROM	dbo.tUsuario U 
 	  INNER JOIN dbo.tRol R ON U.ConsecutivoRol = R.Consecutivo
 	  WHERE Identificacion = @Identificacion

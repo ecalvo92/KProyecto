@@ -21,5 +21,7 @@ namespace KWeb.Models
         public int ConsecutivoRol { get; set; }
         public bool Activo { get; set; }
         public string NombreRol { get; set; }
+        public bool TieneContrasennaTemp { get; set; }
+        public System.DateTime FechaVencimientoTemp { get; set; }
     }
 }

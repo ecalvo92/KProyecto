@@ -30,6 +30,27 @@ namespace KWeb.Models
         public virtual DbSet<tRol> tRol { get; set; }
         public virtual DbSet<tUsuario> tUsuario { get; set; }
     
+        public virtual int ActualizarContrasenna(string contrasennaTemp, Nullable<bool> tieneContrasennaTemp, Nullable<System.DateTime> fechaVencimientoTemp, Nullable<long> consecutivo)
+        {
+            var contrasennaTempParameter = contrasennaTemp != null ?
+                new ObjectParameter("ContrasennaTemp", contrasennaTemp) :
+                new ObjectParameter("ContrasennaTemp", typeof(string));
+    
+            var tieneContrasennaTempParameter = tieneContrasennaTemp.HasValue ?
+                new ObjectParameter("TieneContrasennaTemp", tieneContrasennaTemp) :
+                new ObjectParameter("TieneContrasennaTemp", typeof(bool));
+    
+            var fechaVencimientoTempParameter = fechaVencimientoTemp.HasValue ?
+                new ObjectParameter("FechaVencimientoTemp", fechaVencimientoTemp) :
+                new ObjectParameter("FechaVencimientoTemp", typeof(System.DateTime));
+    
+            var consecutivoParameter = consecutivo.HasValue ?
+                new ObjectParameter("Consecutivo", consecutivo) :
+                new ObjectParameter("Consecutivo", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarContrasenna", contrasennaTempParameter, tieneContrasennaTempParameter, fechaVencimientoTempParameter, consecutivoParameter);
+        }
+    
         public virtual ObjectResult<InicioSesion_Result> InicioSesion(string identificacion, string contrasenna)
         {
             var identificacionParameter = identificacion != null ?
@@ -62,27 +83,6 @@ namespace KWeb.Models
                 new ObjectParameter("Contrasenna", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistroUsuario", identificacionParameter, nombreParameter, correoElectronicoParameter, contrasennaParameter);
-        }
-    
-        public virtual int ActualizarContrasenna(string contrasennaTemp, Nullable<bool> tieneContrasennaTemp, Nullable<System.DateTime> fechaVencimientoTemp, Nullable<long> consecutivo)
-        {
-            var contrasennaTempParameter = contrasennaTemp != null ?
-                new ObjectParameter("ContrasennaTemp", contrasennaTemp) :
-                new ObjectParameter("ContrasennaTemp", typeof(string));
-    
-            var tieneContrasennaTempParameter = tieneContrasennaTemp.HasValue ?
-                new ObjectParameter("TieneContrasennaTemp", tieneContrasennaTemp) :
-                new ObjectParameter("TieneContrasennaTemp", typeof(bool));
-    
-            var fechaVencimientoTempParameter = fechaVencimientoTemp.HasValue ?
-                new ObjectParameter("FechaVencimientoTemp", fechaVencimientoTemp) :
-                new ObjectParameter("FechaVencimientoTemp", typeof(System.DateTime));
-    
-            var consecutivoParameter = consecutivo.HasValue ?
-                new ObjectParameter("Consecutivo", consecutivo) :
-                new ObjectParameter("Consecutivo", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarContrasenna", contrasennaTempParameter, tieneContrasennaTempParameter, fechaVencimientoTempParameter, consecutivoParameter);
         }
     }
 }

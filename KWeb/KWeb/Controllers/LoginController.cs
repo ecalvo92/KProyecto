@@ -33,6 +33,8 @@ namespace KWeb.Controllers
                 //tabla.Contrasenna = model.Contrasenna;
                 //tabla.ConsecutivoRol = 2;
                 //tabla.Activo = true;
+                //tabla.TieneContrasennaTemp = false;
+                //tabla.FechaVencimientoTemp = DateTime.Now;
 
                 //context.tUsuario.Add(tabla);
                 //context.SaveChanges();
@@ -62,7 +64,15 @@ namespace KWeb.Controllers
 
                 if (datos != null)
                 {
-                    return RedirectToAction("Index", "Home");
+                    if (datos.TieneContrasennaTemp && datos.FechaVencimientoTemp < DateTime.Now)
+                    {
+                        return View();
+                    }
+                    else
+                    {
+                        Session["NombreUsuario"] = datos.Nombre;
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
 
@@ -86,16 +96,21 @@ namespace KWeb.Controllers
 
                 if (datos != null)
                 {
-                    var ContrasennaTemp = CreatePassword();
-                    var TieneContrasennaTemp = true;
-                    var FechaVencimientoTemp = DateTime.Now.AddMinutes(30);
-
-                    var result = context.ActualizarContrasenna(ContrasennaTemp, TieneContrasennaTemp, FechaVencimientoTemp, datos.Consecutivo);
+                    datos.Contrasenna = CreatePassword();
+                    datos.TieneContrasennaTemp = true;
+                    datos.FechaVencimientoTemp = DateTime.Now.AddMinutes(double.Parse(ConfigurationManager.AppSettings["MinutosVigenciaTemporal"]));
+                    var result = context.SaveChanges();
 
                     if (result > 0)
                     {
-                        EnviarCorreo(datos.CorreoElectronico, "Contraseña Temporal", "Querid@ usuari@, se ha generado la siguiente contraseña temporal: " +
-                            ContrasennaTemp + " que expira el: " + FechaVencimientoTemp.ToString("dd/MM/yyyy hh:mm tt"));
+                        string ruta = AppDomain.CurrentDomain.BaseDirectory + "\\Styles\\TemplateCorreo.html";
+                        string contenido = System.IO.File.ReadAllText(ruta);
+
+                        contenido = contenido.Replace("@@Nombre", datos.Nombre);
+                        contenido = contenido.Replace("@@Contrasenna", datos.Contrasenna);
+                        contenido = contenido.Replace("@@Vencimiento", datos.FechaVencimientoTemp.ToString("dd/MM/yyyy hh:mm tt"));
+
+                        EnviarCorreo(datos.CorreoElectronico, "Contraseña Temporal", contenido);
                     }
 
                     return RedirectToAction("InicioSesion", "Login");
@@ -104,6 +119,26 @@ namespace KWeb.Controllers
 
             return View();
         }
+
+
+
+        [HttpGet]
+        public ActionResult CambiarContrasenna()
+        {
+            return View();
+        }
+
+
+
+
+        [HttpGet]
+        public ActionResult CierreSesion()
+        {
+            Session.Clear();
+            return RedirectToAction("InicioSesion", "Login");
+        }
+
+
 
         private string CreatePassword()
         {

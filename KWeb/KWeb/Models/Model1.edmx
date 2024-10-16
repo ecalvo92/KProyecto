@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="KDataBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="KDataBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tRol">
           <Key>
             <PropertyRef Name="Consecutivo" />
@@ -62,7 +62,8 @@
             <End Role="tUsuario" EntitySet="tUsuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KDataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -85,9 +86,9 @@
           <Property Name="Contrasenna" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ConsecutivoRol" Type="Int32" Nullable="false" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="tRol" Relationship="Self.FK_tUsuario_tRol" FromRole="tUsuario" ToRole="tRol" />
           <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
           <Property Name="FechaVencimientoTemp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tRol" Relationship="Self.FK_tUsuario_tRol" FromRole="tUsuario" ToRole="tRol" />
         </EntityType>
         <Association Name="FK_tUsuario_tRol">
           <End Role="tRol" Type="Self.tRol" Multiplicity="1" />
@@ -108,6 +109,12 @@
             <End Role="tRol" EntitySet="tRol" />
             <End Role="tUsuario" EntitySet="tUsuario" />
           </AssociationSet>
+          <FunctionImport Name="ActualizarContrasenna">
+            <Parameter Name="ContrasennaTemp" Mode="In" Type="String" />
+            <Parameter Name="TieneContrasennaTemp" Mode="In" Type="Boolean" />
+            <Parameter Name="FechaVencimientoTemp" Mode="In" Type="DateTime" />
+            <Parameter Name="Consecutivo" Mode="In" Type="Int64" />
+          </FunctionImport>
           <FunctionImport Name="InicioSesion" ReturnType="Collection(KDataBaseModel.InicioSesion_Result)">
             <Parameter Name="Identificacion" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
@@ -117,12 +124,6 @@
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="ActualizarContrasenna">
-            <Parameter Name="ContrasennaTemp" Mode="In" Type="String" />
-            <Parameter Name="TieneContrasennaTemp" Mode="In" Type="Boolean" />
-            <Parameter Name="FechaVencimientoTemp" Mode="In" Type="DateTime" />
-            <Parameter Name="Consecutivo" Mode="In" Type="Int64" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="InicioSesion_Result">
@@ -134,6 +135,8 @@
           <Property Type="Int32" Name="ConsecutivoRol" Nullable="false" />
           <Property Type="Boolean" Name="Activo" Nullable="false" />
           <Property Type="String" Name="NombreRol" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="TieneContrasennaTemp" Nullable="false" />
+          <Property Type="DateTime" Name="FechaVencimientoTemp" Nullable="false" Precision="23" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -152,8 +155,6 @@
           <EntitySetMapping Name="tUsuario">
             <EntityTypeMapping TypeName="KDataBaseModel.tUsuario">
               <MappingFragment StoreEntitySet="tUsuario">
-                <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
-                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
                 <ScalarProperty Name="Consecutivo" ColumnName="Consecutivo" />
                 <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -161,9 +162,12 @@
                 <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
                 <ScalarProperty Name="ConsecutivoRol" ColumnName="ConsecutivoRol" />
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
+                <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ActualizarContrasenna" FunctionName="KDataBaseModel.Store.ActualizarContrasenna" />
           <FunctionImportMapping FunctionImportName="InicioSesion" FunctionName="KDataBaseModel.Store.InicioSesion">
             <ResultMapping>
               <ComplexTypeMapping TypeName="KDataBaseModel.InicioSesion_Result">
@@ -175,11 +179,12 @@
                 <ScalarProperty Name="ConsecutivoRol" ColumnName="ConsecutivoRol" />
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
+                <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="RegistroUsuario" FunctionName="KDataBaseModel.Store.RegistroUsuario" />
-          <FunctionImportMapping FunctionImportName="ActualizarContrasenna" FunctionName="KDataBaseModel.Store.ActualizarContrasenna" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
