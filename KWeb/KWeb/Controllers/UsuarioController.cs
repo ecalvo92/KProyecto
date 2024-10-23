@@ -46,5 +46,32 @@ namespace KWeb.Controllers
             }
         }
 
+
+
+        [HttpGet]
+        public ActionResult ConsultarUsuarios()
+        {
+            using (var context = new KDataBaseEntities())
+            {
+                var datos = context.tUsuario.ToList();
+
+                var usuarios = new List<Usuario>();
+                foreach (var item in datos)
+                {
+                    usuarios.Add(new Usuario 
+                    { 
+                        Consecutivo = item.Consecutivo,
+                        Identificacion = item.Identificacion,
+                        Nombre = item.Nombre,
+                        CorreoElectronico = item.CorreoElectronico,
+                        NombreRol = item.tRol.NombreRol
+                    });
+                }
+                
+                return View(usuarios);
+            }
+        }
+
+
     }
 }

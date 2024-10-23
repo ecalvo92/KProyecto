@@ -250,6 +250,7 @@
     <Content Include="Views\Login\RecuperarAcceso.cshtml" />
     <Content Include="Views\Login\CambiarContrasenna.cshtml" />
     <Content Include="Views\Usuario\ActualizarPerfil.cshtml" />
+    <Content Include="Views\Usuario\ConsultarUsuarios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

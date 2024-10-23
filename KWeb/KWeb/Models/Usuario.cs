@@ -7,6 +7,7 @@ namespace KWeb.Models
 {
     public class Usuario
     {
+        public long Consecutivo { get; set; }
         public string Identificacion { get; set; }
         public string Nombre { get; set; }
         public string CorreoElectronico { get; set; }
