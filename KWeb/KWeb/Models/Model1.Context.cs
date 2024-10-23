@@ -84,5 +84,26 @@ namespace KWeb.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistroUsuario", identificacionParameter, nombreParameter, correoElectronicoParameter, contrasennaParameter);
         }
+    
+        public virtual int ActualizarPerfil(string identificacion, string nombre, string correoElectronico, Nullable<long> consecutivo)
+        {
+            var identificacionParameter = identificacion != null ?
+                new ObjectParameter("Identificacion", identificacion) :
+                new ObjectParameter("Identificacion", typeof(string));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var correoElectronicoParameter = correoElectronico != null ?
+                new ObjectParameter("CorreoElectronico", correoElectronico) :
+                new ObjectParameter("CorreoElectronico", typeof(string));
+    
+            var consecutivoParameter = consecutivo.HasValue ?
+                new ObjectParameter("Consecutivo", consecutivo) :
+                new ObjectParameter("Consecutivo", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarPerfil", identificacionParameter, nombreParameter, correoElectronicoParameter, consecutivoParameter);
+        }
     }
 }

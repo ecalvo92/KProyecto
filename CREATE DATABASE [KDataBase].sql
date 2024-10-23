@@ -36,9 +36,11 @@ GO
 
 SET IDENTITY_INSERT [dbo].[tRol] ON 
 GO
-INSERT [dbo].[tRol] ([Consecutivo], [NombreRol]) VALUES (1, N'Administradores')
+INSERT [dbo].[tRol] ([Consecutivo], [NombreRol]) VALUES (1, N'Especialista')
 GO
-INSERT [dbo].[tRol] ([Consecutivo], [NombreRol]) VALUES (2, N'Clientes')
+INSERT [dbo].[tRol] ([Consecutivo], [NombreRol]) VALUES (2, N'Paciente')
+GO
+INSERT [dbo].[tRol] ([Consecutivo], [NombreRol]) VALUES (3, N'Director')
 GO
 SET IDENTITY_INSERT [dbo].[tRol] OFF
 GO
@@ -47,7 +49,7 @@ SET IDENTITY_INSERT [dbo].[tUsuario] ON
 GO
 INSERT [dbo].[tUsuario] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [ConsecutivoRol], [Activo], [TieneContrasennaTemp], [FechaVencimientoTemp]) VALUES (2, N'304590415', N'Eduardo Calvo Castillo', N'ecalvo90415@ufide.ac.cr', N'90415', 2, 1, 0, CAST(N'2021-10-15T00:00:00.000' AS DateTime))
 GO
-INSERT [dbo].[tUsuario] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [ConsecutivoRol], [Activo], [TieneContrasennaTemp], [FechaVencimientoTemp]) VALUES (4, N'305530487', N'Keilyn Navarro', N'knavarro30487@ufide.ac.cr', N'MX02HLGK3T', 2, 1, 1, CAST(N'2024-10-15T20:58:43.510' AS DateTime))
+INSERT [dbo].[tUsuario] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [ConsecutivoRol], [Activo], [TieneContrasennaTemp], [FechaVencimientoTemp]) VALUES (4, N'305530487', N'Keilyn Dariana Navarro Montero', N'knavarro30487@ufide.ac.cr', N'30487', 2, 1, 0, CAST(N'2024-10-22T19:33:13.583' AS DateTime))
 GO
 SET IDENTITY_INSERT [dbo].[tUsuario] OFF
 GO
@@ -87,6 +89,23 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE [dbo].[ActualizarPerfil]
+	@Identificacion		varchar(20),
+	@Nombre				varchar(255),
+	@CorreoElectronico	varchar(80),
+	@Consecutivo		bigint
+AS
+BEGIN
+	
+	UPDATE	dbo.tUsuario
+	   SET	Identificacion = @Identificacion,
+			Nombre = @Nombre,
+			CorreoElectronico = @CorreoElectronico
+	 WHERE	Consecutivo = @Consecutivo
+
+END
+GO
+
 CREATE PROCEDURE [dbo].[InicioSesion]
 	@Identificacion		varchar(20),
 	@Contrasenna		varchar(10)
@@ -120,8 +139,14 @@ CREATE PROCEDURE [dbo].[RegistroUsuario]
 AS
 BEGIN
 
-	INSERT INTO dbo.tUsuario (Identificacion,Nombre,CorreoElectronico,Contrasenna, ConsecutivoRol,Activo,TieneContrasennaTemp,FechaVencimientoTemp)
-    VALUES (@Identificacion,@Nombre,@CorreoElectronico,@Contrasenna,2,1,0,GETDATE())
-	
+	IF NOT EXISTS(	SELECT	1 
+					FROM	dbo.tUsuario 
+					WHERE	Identificacion = @Identificacion
+						AND	CorreoElectronico = @CorreoElectronico)
+	BEGIN
+		INSERT INTO dbo.tUsuario (Identificacion,Nombre,CorreoElectronico,Contrasenna, ConsecutivoRol,Activo,TieneContrasennaTemp,FechaVencimientoTemp)
+		VALUES (@Identificacion,@Nombre,@CorreoElectronico,@Contrasenna,2,1,0,GETDATE())
+	END
+
 END
 GO

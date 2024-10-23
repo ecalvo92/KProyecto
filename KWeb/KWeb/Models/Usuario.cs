@@ -13,5 +13,8 @@ namespace KWeb.Models
         public string Contrasenna { get; set; }
         public string ContrasennaAnterior { get; set; }
         public string ConfirmarContrasenna { get; set; }
+
+        public int ConsecutivoRol { get; set; }
+        public string NombreRol { get; set; }
     }
 }
