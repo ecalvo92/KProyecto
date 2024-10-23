@@ -23,8 +23,9 @@ namespace KWeb.Controllers
         {
             using (var context = new KDataBaseEntities())
             {
-                context.RegistroUsuario(model.Identificacion, model.Nombre, model.CorreoElectronico, model.Contrasenna);
+                var respuesta = context.RegistroUsuario(model.Identificacion, model.Nombre, model.CorreoElectronico, model.Contrasenna);
 
+                #region LinQ
                 //var tabla = new tUsuario();
                 //tabla.Consecutivo = 0;
                 //tabla.Identificacion = model.Identificacion;
@@ -37,10 +38,15 @@ namespace KWeb.Controllers
                 //tabla.FechaVencimientoTemp = DateTime.Now;
 
                 //context.tUsuario.Add(tabla);
-                //context.SaveChanges();
-            }
+                //var respuesta = context.SaveChanges();
+                #endregion
 
-            return RedirectToAction("InicioSesion", "Login");
+                if (respuesta > 0)
+                    return RedirectToAction("InicioSesion", "Login");
+
+                ViewBag.MensajePantalla = "Su información no se ha podido registrar correctamente";
+                return View();
+            }            
         }
 
 
@@ -58,25 +64,30 @@ namespace KWeb.Controllers
             {
                 var datos = context.InicioSesion(model.Identificacion, model.Contrasenna).FirstOrDefault();
 
+                #region LinQ
                 //var datos = context.tUsuario.Where(x => x.Identificacion == model.Identificacion
                 //                                     && x.Contrasenna == model.Contrasenna
                 //                                     && x.Activo == true).FirstOrDefault();
+                #endregion
 
                 if (datos != null)
                 {
                     if (datos.TieneContrasennaTemp && datos.FechaVencimientoTemp < DateTime.Now)
                     {
+                        ViewBag.MensajePantalla = "Sus credenciales de acceso han expirado.";
                         return View();
                     }
                     else
                     {
+                        Session["Consecutivo"] = datos.Consecutivo;
                         Session["NombreUsuario"] = datos.Nombre;
                         return RedirectToAction("Index", "Home");
                     }
                 }
-            }
 
-            return View();
+                ViewBag.MensajePantalla = "Su información no se ha podido validar correctamente";
+                return View();
+            }
         }
 
 
@@ -96,28 +107,25 @@ namespace KWeb.Controllers
 
                 if (datos != null)
                 {
-                    datos.Contrasenna = CreatePassword();
+                    datos.Contrasenna = CrearContrasenna();
                     datos.TieneContrasennaTemp = true;
                     datos.FechaVencimientoTemp = DateTime.Now.AddMinutes(double.Parse(ConfigurationManager.AppSettings["MinutosVigenciaTemporal"]));
-                    var result = context.SaveChanges();
+                    context.SaveChanges();
 
-                    if (result > 0)
-                    {
-                        string ruta = AppDomain.CurrentDomain.BaseDirectory + "\\Styles\\TemplateCorreo.html";
-                        string contenido = System.IO.File.ReadAllText(ruta);
+                    string ruta = AppDomain.CurrentDomain.BaseDirectory + "\\Styles\\TemplateCorreo.html";
+                    string contenido = System.IO.File.ReadAllText(ruta);
 
-                        contenido = contenido.Replace("@@Nombre", datos.Nombre);
-                        contenido = contenido.Replace("@@Contrasenna", datos.Contrasenna);
-                        contenido = contenido.Replace("@@Vencimiento", datos.FechaVencimientoTemp.ToString("dd/MM/yyyy hh:mm tt"));
+                    contenido = contenido.Replace("@@Nombre", datos.Nombre);
+                    contenido = contenido.Replace("@@Contrasenna", datos.Contrasenna);
+                    contenido = contenido.Replace("@@Vencimiento", datos.FechaVencimientoTemp.ToString("dd/MM/yyyy hh:mm tt"));
 
-                        EnviarCorreo(datos.CorreoElectronico, "Contraseña Temporal", contenido);
-                    }
-
+                    EnviarCorreo(datos.CorreoElectronico, "Contraseña Temporal", contenido);
                     return RedirectToAction("InicioSesion", "Login");
                 }
-            }
 
-            return View();
+                ViewBag.MensajePantalla = "Su información no se ha podido validar correctamente";
+                return View();
+            }
         }
 
 
@@ -126,6 +134,45 @@ namespace KWeb.Controllers
         public ActionResult CambiarContrasenna()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult CambiarContrasenna(Usuario model)
+        {
+            if (model.ContrasennaAnterior == model.Contrasenna)
+            {
+                ViewBag.MensajePantalla = "Debe ingresar una contraseña nueva";
+                return View();
+            }
+            else if (model.Contrasenna != model.ConfirmarContrasenna)
+            {
+                ViewBag.MensajePantalla = "Las nuevas contraseñas no coinciden";
+                return View();
+            }
+
+            using (var context = new KDataBaseEntities())
+            {
+                long Consecutivo = long.Parse(Session["Consecutivo"].ToString());
+                var datos = context.tUsuario.Where(x => x.Consecutivo == Consecutivo).FirstOrDefault();
+
+                if (datos != null)
+                {
+                    if (datos.Contrasenna != model.ContrasennaAnterior)
+                    {
+                        ViewBag.MensajePantalla = "La contraseña anterior no coincide";
+                        return View();
+                    }
+
+                    datos.Contrasenna = model.Contrasenna;
+                    datos.TieneContrasennaTemp = false;
+                    datos.FechaVencimientoTemp = DateTime.Now;
+                    context.SaveChanges();
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ViewBag.MensajePantalla = "Sus credenciales no se han podido actualizar correctamente";
+                return View();
+            }
         }
 
 
@@ -140,7 +187,7 @@ namespace KWeb.Controllers
 
 
 
-        private string CreatePassword()
+        private string CrearContrasenna()
         {
             int length = 10;
             const string valid = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";

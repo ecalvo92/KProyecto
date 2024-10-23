@@ -1,5 +1,33 @@
-﻿<main>
+﻿@model KWeb.Models.Usuario
 
-    ESTA ES LA VISTA DE CAMBIAR CONTRASEÑA
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">Cambiar Contraseña</h5>
 
-</main>
+        @if (ViewBag.MensajePantalla != null)
+        {
+            <div class="alert alert-danger text-center" role="alert">
+                @ViewBag.MensajePantalla
+            </div>
+        }
+
+        @using (Html.BeginForm("CambiarContrasenna", "Login"))
+        {
+            <div class="mb-3">
+                <label class="form-label">Contraseña Anterior</label>
+                @Html.TextBoxFor(m => m.ContrasennaAnterior, new { @type = "password", @class = "form-control" })
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Nueva Contraseña</label>
+                @Html.TextBoxFor(m => m.Contrasenna, new { @type = "password", @class = "form-control" })
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Confirmar Contraseña</label>
+                @Html.TextBoxFor(m => m.ConfirmarContrasenna, new { @type = "password", @class = "form-control" })
+            </div>
+
+            <button type="submit" class="btn btn-primary">Procesar</button>
+        }
+
+    </div>
+</div>

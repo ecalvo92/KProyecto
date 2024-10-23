@@ -18,6 +18,13 @@
 
                             <p class="text-center">Inicio de sesión</p>
 
+                            @if (ViewBag.MensajePantalla != null)
+                            {
+                                <div class="alert alert-danger text-center" role="alert">
+                                    @ViewBag.MensajePantalla
+                                </div>
+                            }
+
                             @using (Html.BeginForm("InicioSesion", "Login"))
                             {
 

@@ -18,12 +18,19 @@
 
                             <p class="text-center">Registro de usuarios</p>
 
-                            @using(Html.BeginForm("RegistroUsuario", "Login"))
+                            @if (ViewBag.MensajePantalla != null)
+                            {
+                                <div class="alert alert-danger text-center" role="alert">
+                                    @ViewBag.MensajePantalla
+                                </div>
+                            }
+
+                            @using (Html.BeginForm("RegistroUsuario", "Login"))
                             {
 
                                 <div class="mb-3">
                                     <label class="form-label">Identificación</label>
-                                    @Html.TextBoxFor(m => m.Identificacion, new { @class="form-control" })
+                                    @Html.TextBoxFor(m => m.Identificacion, new { @class = "form-control" })
                                 </div>
 
                                 <div class="mb-3">
