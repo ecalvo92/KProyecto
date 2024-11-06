@@ -2,7 +2,7 @@
 
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title fw-semibold mb-4">Actualizar Perfil</h5>
+        <h5 class="card-title fw-semibold mb-4">Actualizar Usuario</h5>
 
         @if (ViewBag.MensajePantalla != null)
         {
@@ -11,8 +11,10 @@
             </div>
         }
 
-        @using (Html.BeginForm("ActualizarPerfil", "Usuario"))
+        @using (Html.BeginForm("ActualizarUsuario", "Usuario"))
         {
+            @Html.HiddenFor(m => m.Consecutivo)
+
             <div class="mb-3">
                 <label class="form-label">Identificación</label>
                 @Html.TextBoxFor(m => m.Identificacion, new { @class = "form-control" })
@@ -30,7 +32,7 @@
 
             <div class="mb-4">
                 <label class="form-label">Rol</label>
-                @Html.TextBoxFor(m => m.NombreRol, new { @class = "form-control", @readOnly = true, style= "background-color: #f5efee;" })
+                @Html.DropDownListFor(m => m.ConsecutivoRol, ViewBag.listaRoles as List<SelectListItem>, new { @class = "form-control" })
             </div>
 
             <button type="submit" class="btn btn-primary">Procesar</button>

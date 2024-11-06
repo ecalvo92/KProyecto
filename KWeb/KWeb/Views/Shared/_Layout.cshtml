@@ -1,9 +1,11 @@
 ﻿@{
     var imagenUsuario = "/Styles/images/user-1.jpg";
-    
+    var nombreUsuario = "Invitado";
+
     if (Session["NombreUsuario"] != null)
     {
         imagenUsuario = Session["ImagenUsuario"].ToString();
+        nombreUsuario = Session["NombreUsuario"].ToString();
     }
 }
 
@@ -16,6 +18,7 @@
         <title>Sistema Web - Martes</title>
         <link rel="shortcut icon" type="image/png" href="~/Styles/images/seodashlogo.png" />
         <link rel="stylesheet" href="~/Styles/css/styles.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     </head>
 
     <body class="page-wrapper">
@@ -26,7 +29,7 @@
             <aside class="left-sidebar">
                 <div>
                     <div class="brand-logo d-flex align-items-center justify-content-between">
-                        <a href="./index.html" class="text-nowrap logo-img">
+                        <a class="text-nowrap logo-img">
                             <img src="~/Styles/images/logo-light.svg" alt="" />
                         </a>
                         <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -35,46 +38,30 @@
                     </div>
                     <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                         <ul id="sidebarnav">
-                            <li class="nav-small-cap">
-                                <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
-                                <span class="hide-menu">Home</span>
-                            </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                                <a class="sidebar-link" href="@Url.Action("Index","Home")" aria-expanded="false">
                                     <span>
                                         <iconify-icon icon="solar:home-smile-bold-duotone" class="fs-6"></iconify-icon>
                                     </span>
-                                    <span class="hide-menu">Dashboard</span>
+                                    <span class="hide-menu">Inicio</span>
                                 </a>
                             </li>
-                            <li class="nav-small-cap">
-                                <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
-                                <span class="hide-menu">Mantenimientos</span>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" href="@Url.Action("ConsultarUsuarios","Usuario")" aria-expanded="false">
-                                    <span>
-                                        <iconify-icon icon="solar:layers-minimalistic-bold-duotone" class="fs-6"></iconify-icon>
-                                    </span>
-                                    <span class="hide-menu">Usuarios</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
-                                    <span>
-                                        <iconify-icon icon="solar:danger-circle-bold-duotone" class="fs-6"></iconify-icon>
-                                    </span>
-                                    <span class="hide-menu">Alerts</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" href="./ui-card.html" aria-expanded="false">
-                                    <span>
-                                        <iconify-icon icon="solar:bookmark-square-minimalistic-bold-duotone" class="fs-6"></iconify-icon>
-                                    </span>
-                                    <span class="hide-menu">Card</span>
-                                </a>
-                            </li>
+
+                            @if (Session["NombreUsuario"] != null)
+                            {
+                                <li class="nav-small-cap">
+                                    <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
+                                    <span class="hide-menu">Mantenimientos</span>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a class="sidebar-link" href="@Url.Action("ConsultarUsuarios", "Usuario")" aria-expanded="false">
+                                        <span>
+                                            <iconify-icon icon="solar:layers-minimalistic-bold-duotone" class="fs-6"></iconify-icon>
+                                        </span>
+                                        <span class="hide-menu">Usuarios</span>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </nav>
                 </div>
@@ -94,14 +81,9 @@
                         </ul>
                         <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
 
-
-
                             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
 
-                                @if (Session["NombreUsuario"] != null)
-                                {
-                                    @Session["NombreUsuario"].ToString()
-                                }
+                                @nombreUsuario
 
                                 <li class="nav-item dropdown">
 

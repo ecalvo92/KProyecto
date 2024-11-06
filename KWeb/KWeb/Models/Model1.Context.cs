@@ -85,7 +85,7 @@ namespace KWeb.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistroUsuario", identificacionParameter, nombreParameter, correoElectronicoParameter, contrasennaParameter);
         }
     
-        public virtual int ActualizarPerfil(string identificacion, string nombre, string correoElectronico, Nullable<long> consecutivo)
+        public virtual int ActualizarPerfil(string identificacion, string nombre, string correoElectronico, Nullable<long> consecutivo, Nullable<int> consecutivoRol)
         {
             var identificacionParameter = identificacion != null ?
                 new ObjectParameter("Identificacion", identificacion) :
@@ -103,7 +103,11 @@ namespace KWeb.Models
                 new ObjectParameter("Consecutivo", consecutivo) :
                 new ObjectParameter("Consecutivo", typeof(long));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarPerfil", identificacionParameter, nombreParameter, correoElectronicoParameter, consecutivoParameter);
+            var consecutivoRolParameter = consecutivoRol.HasValue ?
+                new ObjectParameter("ConsecutivoRol", consecutivoRol) :
+                new ObjectParameter("ConsecutivoRol", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarPerfil", identificacionParameter, nombreParameter, correoElectronicoParameter, consecutivoParameter, consecutivoRolParameter);
         }
     }
 }

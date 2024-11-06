@@ -251,6 +251,7 @@
     <Content Include="Views\Login\CambiarContrasenna.cshtml" />
     <Content Include="Views\Usuario\ActualizarPerfil.cshtml" />
     <Content Include="Views\Usuario\ConsultarUsuarios.cshtml" />
+    <Content Include="Views\Usuario\ActualizarUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
