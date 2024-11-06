@@ -82,6 +82,7 @@ namespace KWeb.Controllers
                         Session["Consecutivo"] = datos.Consecutivo;
                         Session["NombreUsuario"] = datos.Nombre;
                         Session["ImagenUsuario"] = "/Styles/images/PerfilUsuario.jpg";
+                        Session["RolUsuario"] = datos.ConsecutivoRol;
                         return RedirectToAction("Index", "Home");
                     }
                 }

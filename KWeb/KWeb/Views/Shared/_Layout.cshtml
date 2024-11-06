@@ -2,7 +2,7 @@
     var imagenUsuario = "/Styles/images/user-1.jpg";
     var nombreUsuario = "Invitado";
 
-    if (Session["NombreUsuario"] != null)
+    if (Session["RolUsuario"] != null)
     {
         imagenUsuario = Session["ImagenUsuario"].ToString();
         nombreUsuario = Session["NombreUsuario"].ToString();
@@ -19,6 +19,7 @@
         <link rel="shortcut icon" type="image/png" href="~/Styles/images/seodashlogo.png" />
         <link rel="stylesheet" href="~/Styles/css/styles.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
     </head>
 
     <body class="page-wrapper">
@@ -47,7 +48,7 @@
                                 </a>
                             </li>
 
-                            @if (Session["NombreUsuario"] != null)
+                            @if (Session["RolUsuario"] != null && Session["RolUsuario"].ToString() == "3")
                             {
                                 <li class="nav-small-cap">
                                     <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
@@ -62,6 +63,7 @@
                                     </a>
                                 </li>
                             }
+
                         </ul>
                     </nav>
                 </div>
@@ -95,7 +97,7 @@
 
                                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                                         <div class="message-body">
-                                            @if (Session["NombreUsuario"] != null)
+                                            @if (Session["RolUsuario"] != null)
                                             {
                                                 <a href="@Url.Action("ActualizarPerfil","Usuario")" class="d-flex align-items-center gap-2 dropdown-item">
                                                     <i class="ti ti-user fs-6"></i>
@@ -137,5 +139,8 @@
         <script src="~/Styles/js/sidebarmenu.js"></script>
         <script src="~/Styles/js/app.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+        <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+        <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+
     </body>
 </html>

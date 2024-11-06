@@ -40,7 +40,7 @@ INSERT [dbo].[tRol] ([Consecutivo], [NombreRol]) VALUES (1, N'Especialista')
 GO
 INSERT [dbo].[tRol] ([Consecutivo], [NombreRol]) VALUES (2, N'Paciente')
 GO
-INSERT [dbo].[tRol] ([Consecutivo], [NombreRol]) VALUES (3, N'Director')
+INSERT [dbo].[tRol] ([Consecutivo], [NombreRol]) VALUES (3, N'Director(a)')
 GO
 SET IDENTITY_INSERT [dbo].[tRol] OFF
 GO
@@ -49,7 +49,7 @@ SET IDENTITY_INSERT [dbo].[tUsuario] ON
 GO
 INSERT [dbo].[tUsuario] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [ConsecutivoRol], [Activo], [TieneContrasennaTemp], [FechaVencimientoTemp]) VALUES (2, N'304590415', N'Eduardo Calvo Castillo', N'ecalvo90415@ufide.ac.cr', N'90415', 2, 1, 0, CAST(N'2021-10-15T00:00:00.000' AS DateTime))
 GO
-INSERT [dbo].[tUsuario] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [ConsecutivoRol], [Activo], [TieneContrasennaTemp], [FechaVencimientoTemp]) VALUES (4, N'305530487', N'Keilyn Dariana Navarro Montero', N'knavarro30487@ufide.ac.cr', N'30487', 2, 1, 0, CAST(N'2024-10-22T19:33:13.583' AS DateTime))
+INSERT [dbo].[tUsuario] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [ConsecutivoRol], [Activo], [TieneContrasennaTemp], [FechaVencimientoTemp]) VALUES (4, N'305530487', N'Keilyn Navarro', N'knavarro30487@ufide.ac.cr', N'30487', 3, 1, 0, CAST(N'2024-10-22T19:33:13.583' AS DateTime))
 GO
 SET IDENTITY_INSERT [dbo].[tUsuario] OFF
 GO
@@ -93,14 +93,18 @@ CREATE PROCEDURE [dbo].[ActualizarPerfil]
 	@Identificacion		varchar(20),
 	@Nombre				varchar(255),
 	@CorreoElectronico	varchar(80),
-	@Consecutivo		bigint
+	@Consecutivo		bigint,
+	@ConsecutivoRol		INT
 AS
 BEGIN
 	
 	UPDATE	dbo.tUsuario
 	   SET	Identificacion = @Identificacion,
 			Nombre = @Nombre,
-			CorreoElectronico = @CorreoElectronico
+			CorreoElectronico = @CorreoElectronico,
+			ConsecutivoRol = CASE	WHEN @ConsecutivoRol != 0 
+									THEN @ConsecutivoRol
+									END
 	 WHERE	Consecutivo = @Consecutivo
 
 END

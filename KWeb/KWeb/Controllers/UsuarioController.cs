@@ -16,14 +16,18 @@ namespace KWeb.Controllers
             using (var context = new KDataBaseEntities())
             {
                 long Consecutivo = long.Parse(Session["Consecutivo"].ToString());
-                var datos = context.tUsuario.Where(x => x.Consecutivo == Consecutivo).FirstOrDefault();
 
+                var datos = context.tUsuario.Where(x => x.Consecutivo == Consecutivo).FirstOrDefault();
                 var usuario = new Usuario();
-                usuario.Identificacion = datos.Identificacion;
-                usuario.Nombre = datos.Nombre;
-                usuario.CorreoElectronico = datos.CorreoElectronico;
-                usuario.NombreRol = datos.tRol.NombreRol;
-               
+
+                if (datos != null)
+                {
+                    usuario.Identificacion = datos.Identificacion;
+                    usuario.Nombre = datos.Nombre;
+                    usuario.CorreoElectronico = datos.CorreoElectronico;
+                    usuario.NombreRol = datos.tRol.NombreRol;
+                }
+
                 return View(usuario);
             }
         }
@@ -50,6 +54,7 @@ namespace KWeb.Controllers
 
 
         [HttpGet]
+        [FiltroDirector]
         public ActionResult ConsultarUsuarios()
         {
             using (var context = new KDataBaseEntities())
@@ -78,6 +83,7 @@ namespace KWeb.Controllers
 
 
         [HttpGet]
+        [FiltroDirector]
         public ActionResult ActualizarUsuario(long q)
         {
             CargarRoles();
@@ -85,21 +91,26 @@ namespace KWeb.Controllers
             using (var context = new KDataBaseEntities())
             {
                 var datos = context.tUsuario.Where(x => x.Consecutivo == q).FirstOrDefault();
-
                 var usuario = new Usuario();
-                usuario.Consecutivo = datos.Consecutivo;
-                usuario.Identificacion = datos.Identificacion;
-                usuario.Nombre = datos.Nombre;
-                usuario.CorreoElectronico = datos.CorreoElectronico;
-                usuario.ConsecutivoRol = datos.ConsecutivoRol;
-                usuario.NombreRol = datos.tRol.NombreRol;
-                usuario.Estado = (datos.Activo == true ? "Activo" : "Inactivo");
+
+                if (datos != null)
+                {
+                    usuario.Consecutivo = datos.Consecutivo;
+                    usuario.Identificacion = datos.Identificacion;
+                    usuario.Nombre = datos.Nombre;
+                    usuario.CorreoElectronico = datos.CorreoElectronico;
+                    usuario.ConsecutivoRol = datos.ConsecutivoRol;
+                    usuario.NombreRol = datos.tRol.NombreRol;
+                    usuario.Estado = (datos.Activo == true ? "Activo" : "Inactivo");
+                }
 
                 return View(usuario);
+               
             }
         }
 
         [HttpPost]
+        [FiltroDirector]
         public ActionResult ActualizarUsuario(Usuario model)
         {
             using (var context = new KDataBaseEntities())
@@ -108,7 +119,7 @@ namespace KWeb.Controllers
 
                 if (respuesta > 0)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("ConsultarUsuarios", "Usuario");
                 }
 
                 ViewBag.MensajePantalla = "La información no se ha podido actualizar correctamente";
@@ -117,6 +128,27 @@ namespace KWeb.Controllers
             }
         }
 
+
+
+        [HttpPost]
+        [FiltroDirector]
+        public ActionResult ActualizarEstadoUsuario(Usuario model)
+        {
+            using (var context = new KDataBaseEntities())
+            {
+                var datos = context.tUsuario.Where(x => x.Consecutivo == model.Consecutivo).FirstOrDefault();
+
+                if (datos != null)
+                {
+                    datos.Activo = (datos.Activo ? false : true);
+                    context.SaveChanges();
+                    return RedirectToAction("ConsultarUsuarios", "Usuario");
+                }
+
+                ViewBag.MensajePantalla = "La información no se ha podido actualizar correctamente";
+                return View();
+            }
+        }
 
 
         private void CargarRoles()
