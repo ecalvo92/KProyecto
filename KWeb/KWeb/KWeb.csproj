@@ -130,6 +130,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ProductoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -152,6 +153,16 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Producto.cs" />
+    <Compile Include="Models\tCarrito.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tError.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tProducto.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tRol.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -218,6 +229,8 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Styles\css\fonts\tabler-icons.svg" />
     <Content Include="Styles\css\tabler-icons.css" />
+    <Content Include="Styles\FuncionesJS\ConsultarProductos.js" />
+    <Content Include="Styles\FuncionesJS\ConsultarUsuarios.js" />
     <Content Include="Styles\images\logo-light.svg" />
     <Content Include="Styles\css\simplebar.css" />
     <Content Include="Styles\css\styles.min.css" />
@@ -253,9 +266,13 @@
     <Content Include="Views\Usuario\ActualizarPerfil.cshtml" />
     <Content Include="Views\Usuario\ConsultarUsuarios.cshtml" />
     <Content Include="Views\Usuario\ActualizarUsuario.cshtml" />
+    <Content Include="Views\Producto\ConsultarProductos.cshtml" />
+    <Content Include="Views\Producto\AgregarProducto.cshtml" />
+    <Content Include="Views\Producto\ActualizarProducto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ImgProductos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

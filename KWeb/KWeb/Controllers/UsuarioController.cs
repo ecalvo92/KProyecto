@@ -52,7 +52,6 @@ namespace KWeb.Controllers
         }
 
 
-
         [HttpGet]
         [FiltroDirector]
         public ActionResult ConsultarUsuarios()
@@ -79,8 +78,6 @@ namespace KWeb.Controllers
                 return View(usuarios);
             }
         }
-
-
 
         [HttpGet]
         [FiltroDirector]
@@ -127,8 +124,6 @@ namespace KWeb.Controllers
                 return View();
             }
         }
-
-
 
         [HttpPost]
         [FiltroDirector]

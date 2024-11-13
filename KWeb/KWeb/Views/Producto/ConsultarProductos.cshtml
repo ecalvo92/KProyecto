@@ -1,0 +1,44 @@
+﻿@model List<KWeb.Models.Producto>
+
+<div class="card">
+    <div class="card-body">
+        
+        <div class="d-flex justify-content-between">
+            <h5 class="card-title">Lista de Productos</h5> 
+            <a class="btn btn-outline-primary" href="@Url.Action("AgregarProducto","Producto")"> + Agregar </a>
+        </div>
+
+        <div class="table-responsive">
+            <table id="example" class="table text-nowrap align-middle mb-0">
+                <thead>
+                    <tr class="border-2 border-bottom border-primary border-0">
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Imagen</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Consecutivo</td>
+                            <td title="@item.Descripcion">@item.Nombre</td>
+                            <td>@item.Precio</td>
+                            <td>@item.Cantidad</td>
+                            <td style="text-align: center;"><img src="@item.Imagen" style="width:150px; height:125px;" /></td>
+                            <td>
+                                <a class="btn" href="@Url.Action("ActualizarProducto","Producto", new { q = item.Consecutivo })"><i class="fa fa-pencil-square-o" style="font-size: 1.4em;"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="~/Styles/js/jquery.min.js"></script>
+<script src="~/Styles/FuncionesJS/ConsultarProductos.js"></script>

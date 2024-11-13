@@ -9,138 +9,146 @@
     }
 }
 
-    <!doctype html>
-    <html lang="en">
+<!doctype html>
+<html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Sistema Web - Martes</title>
-        <link rel="shortcut icon" type="image/png" href="~/Styles/images/seodashlogo.png" />
-        <link rel="stylesheet" href="~/Styles/css/styles.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-        <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
-    </head>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sistema Web - Martes</title>
+    <link rel="shortcut icon" type="image/png" href="~/Styles/images/seodashlogo.png" />
+    <link rel="stylesheet" href="~/Styles/css/styles.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+</head>
 
-    <body class="page-wrapper">
-        <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-             data-sidebar-position="fixed" data-header-position="fixed">
+<body class="page-wrapper">
+    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed">
 
-            @*Este es el menú lateral izquierdo*@
-            <aside class="left-sidebar">
-                <div>
-                    <div class="brand-logo d-flex align-items-center justify-content-between">
-                        <a class="text-nowrap logo-img">
-                            <img src="~/Styles/images/logo-light.svg" alt="" />
-                        </a>
-                        <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-                            <i class="ti ti-x fs-8"></i>
-                        </div>
+        @*Este es el menú lateral izquierdo*@
+        <aside class="left-sidebar">
+            <div>
+                <div class="brand-logo d-flex align-items-center justify-content-between">
+                    <a class="text-nowrap logo-img">
+                        <img src="~/Styles/images/logo-light.svg" alt="" />
+                    </a>
+                    <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                        <i class="ti ti-x fs-8"></i>
                     </div>
-                    <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
-                        <ul id="sidebarnav">
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" href="@Url.Action("Index","Home")" aria-expanded="false">
-                                    <span>
-                                        <iconify-icon icon="solar:home-smile-bold-duotone" class="fs-6"></iconify-icon>
-                                    </span>
-                                    <span class="hide-menu">Inicio</span>
-                                </a>
-                            </li>
-
-                            @if (Session["RolUsuario"] != null && Session["RolUsuario"].ToString() == "3")
-                            {
-                                <li class="nav-small-cap">
-                                    <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
-                                    <span class="hide-menu">Mantenimientos</span>
-                                </li>
-                                <li class="sidebar-item">
-                                    <a class="sidebar-link" href="@Url.Action("ConsultarUsuarios", "Usuario")" aria-expanded="false">
-                                        <span>
-                                            <iconify-icon icon="solar:layers-minimalistic-bold-duotone" class="fs-6"></iconify-icon>
-                                        </span>
-                                        <span class="hide-menu">Usuarios</span>
-                                    </a>
-                                </li>
-                            }
-
-                        </ul>
-                    </nav>
                 </div>
-            </aside>
+                <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                    <ul id="sidebarnav">
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="@Url.Action("Index","Home")" aria-expanded="false">
+                                <span>
+                                    <iconify-icon icon="solar:home-smile-bold-duotone" class="fs-6"></iconify-icon>
+                                </span>
+                                <span class="hide-menu">Inicio</span>
+                            </a>
+                        </li>
 
-            <div class="body-wrapper">
-
-                @*Este ese el header*@
-                <header class="app-header">
-                    <nav class="navbar navbar-expand-lg navbar-light">
-                        <ul class="navbar-nav">
-                            <li class="nav-item d-block d-xl-none">
-                                <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
-                                    <i class="ti ti-menu-2"></i>
+                        @if (Session["RolUsuario"] != null && Session["RolUsuario"].ToString() == "3")
+                        {
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="@Url.Action("ConsultarUsuarios", "Usuario")" aria-expanded="false">
+                                    <span>
+                                        <iconify-icon icon="solar:layers-minimalistic-bold-duotone" class="fs-6"></iconify-icon>
+                                    </span>
+                                    <span class="hide-menu">Usuarios</span>
                                 </a>
                             </li>
-                        </ul>
-                        <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+                        }
 
-                            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                        @if (Session["RolUsuario"] != null && (Session["RolUsuario"].ToString() == "1" || Session["RolUsuario"].ToString() == "3"))
+                        {
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="@Url.Action("ConsultarProductos", "Producto")" aria-expanded="false">
+                                    <span>
+                                        <iconify-icon icon="solar:layers-minimalistic-bold-duotone" class="fs-6"></iconify-icon>
+                                    </span>
+                                    <span class="hide-menu">Productos</span>
+                                </a>
+                            </li>
+                        }
 
-                                @nombreUsuario
+                    </ul>
+                </nav>
+            </div>
+        </aside>
 
-                                <li class="nav-item dropdown">
+        <div class="body-wrapper">
 
-                                    <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
-                                       aria-expanded="false">
+            @*Este ese el header*@
+            <header class="app-header">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <ul class="navbar-nav">
+                        <li class="nav-item d-block d-xl-none">
+                            <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                                <i class="ti ti-menu-2"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
 
-                                        <img src=@imagenUsuario alt="" width="35" height="35" class="rounded-circle">
-                                    </a>
+                        <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
 
-                                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
-                                        <div class="message-body">
-                                            @if (Session["RolUsuario"] != null)
-                                            {
-                                                <a href="@Url.Action("ActualizarPerfil","Usuario")" class="d-flex align-items-center gap-2 dropdown-item">
-                                                    <i class="ti ti-user fs-6"></i>
-                                                    <p class="mb-0 fs-3">Mi perfil</p>
-                                                </a>
+                            @nombreUsuario
 
-                                                <a href="@Url.Action("CambiarContrasenna","Login")" class="d-flex align-items-center gap-2 dropdown-item">
-                                                    <i class="ti ti-mail fs-6"></i>
-                                                    <p class="mb-0 fs-3">Cambiar Contraseña</p>
-                                                </a>
+                            <li class="nav-item dropdown">
 
-                                                <a href="@Url.Action("CierreSesion","Login")" class="btn btn-outline-primary mx-3 mt-2 d-block">Cerrar Sesión</a>
-                                            }
-                                            else
-                                            {
-                                                <a href="@Url.Action("InicioSesion","Login")" class="btn btn-outline-primary mx-3 mt-2 d-block">Iniciar Sesión</a>
-                                            }
+                                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                                   aria-expanded="false">
 
-                                        </div>
+                                    <img src=@imagenUsuario alt="" width="35" height="35" class="rounded-circle">
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                                    <div class="message-body">
+                                        @if (Session["RolUsuario"] != null)
+                                        {
+                                            <a href="@Url.Action("ActualizarPerfil","Usuario")" class="d-flex align-items-center gap-2 dropdown-item">
+                                                <i class="ti ti-user fs-6"></i>
+                                                <p class="mb-0 fs-3">Mi perfil</p>
+                                            </a>
+
+                                            <a href="@Url.Action("CambiarContrasenna","Login")" class="d-flex align-items-center gap-2 dropdown-item">
+                                                <i class="ti ti-mail fs-6"></i>
+                                                <p class="mb-0 fs-3">Cambiar Contraseña</p>
+                                            </a>
+
+                                            <a href="@Url.Action("CierreSesion","Login")" class="btn btn-outline-primary mx-3 mt-2 d-block">Cerrar Sesión</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("InicioSesion","Login")" class="btn btn-outline-primary mx-3 mt-2 d-block">Iniciar Sesión</a>
+                                        }
+
                                     </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                </header>
-
-                <div class="container-fluid">
-                    <div class="row">
-
-                        @RenderBody()
-
+                                </div>
+                            </li>
+                        </ul>
                     </div>
+                </nav>
+            </header>
+
+            <div class="container-fluid">
+                <div class="row">
+
+                    @RenderBody()
+
                 </div>
             </div>
         </div>
-        <script src="~/Styles/js/jquery.min.js"></script>
-        <script src="~/Styles/js/bootstrap.bundle.min.js"></script>
-        <script src="~/Styles/js/simplebar.js"></script>
-        <script src="~/Styles/js/sidebarmenu.js"></script>
-        <script src="~/Styles/js/app.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
-        <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-        <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+    </div>
+    <script src="~/Styles/js/jquery.min.js"></script>
+    <script src="~/Styles/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Styles/js/simplebar.js"></script>
+    <script src="~/Styles/js/sidebarmenu.js"></script>
+    <script src="~/Styles/js/app.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
 
-    </body>
+</body>
 </html>

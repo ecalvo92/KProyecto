@@ -5,6 +5,37 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="KDataBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tCarrito">
+          <Key>
+            <PropertyRef Name="Consecutivo" />
+          </Key>
+          <Property Name="Consecutivo" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConsecutivoUsuario" Type="bigint" Nullable="false" />
+          <Property Name="ConsecutivoProducto" Type="bigint" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tError">
+          <Key>
+            <PropertyRef Name="Consecutivo" />
+          </Key>
+          <Property Name="Consecutivo" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mensaje" Type="varchar(max)" Nullable="false" />
+          <Property Name="FechaHora" Type="datetime" Nullable="false" />
+          <Property Name="Origen" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ConsecutivoUsuario" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tProducto">
+          <Key>
+            <PropertyRef Name="Consecutivo" />
+          </Key>
+          <Property Name="Consecutivo" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Imagen" Type="varchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
         <EntityType Name="tRol">
           <Key>
             <PropertyRef Name="Consecutivo" />
@@ -26,6 +57,30 @@
           <Property Name="TieneContrasennaTemp" Type="bit" Nullable="false" />
           <Property Name="FechaVencimientoTemp" Type="datetime" Nullable="false" />
         </EntityType>
+        <Association Name="FK_tCarrito_tProducto">
+          <End Role="tProducto" Type="Self.tProducto" Multiplicity="1" />
+          <End Role="tCarrito" Type="Self.tCarrito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tProducto">
+              <PropertyRef Name="Consecutivo" />
+            </Principal>
+            <Dependent Role="tCarrito">
+              <PropertyRef Name="ConsecutivoProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tCarrito_tUsuario">
+          <End Role="tUsuario" Type="Self.tUsuario" Multiplicity="1" />
+          <End Role="tCarrito" Type="Self.tCarrito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tUsuario">
+              <PropertyRef Name="Consecutivo" />
+            </Principal>
+            <Dependent Role="tCarrito">
+              <PropertyRef Name="ConsecutivoUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tUsuario_tRol">
           <End Role="tRol" Type="Self.tRol" Multiplicity="1" />
           <End Role="tUsuario" Type="Self.tUsuario" Multiplicity="*" />
@@ -62,8 +117,19 @@
           <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="KDataBaseModelStoreContainer">
+          <EntitySet Name="tCarrito" EntityType="Self.tCarrito" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tError" EntityType="Self.tError" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tProducto" EntityType="Self.tProducto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tRol" EntityType="Self.tRol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tUsuario" EntityType="Self.tUsuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tCarrito_tProducto" Association="Self.FK_tCarrito_tProducto">
+            <End Role="tProducto" EntitySet="tProducto" />
+            <End Role="tCarrito" EntitySet="tCarrito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tCarrito_tUsuario" Association="Self.FK_tCarrito_tUsuario">
+            <End Role="tUsuario" EntitySet="tUsuario" />
+            <End Role="tCarrito" EntitySet="tCarrito" />
+          </AssociationSet>
           <AssociationSet Name="FK_tUsuario_tRol" Association="Self.FK_tUsuario_tRol">
             <End Role="tRol" EntitySet="tRol" />
             <End Role="tUsuario" EntitySet="tUsuario" />
@@ -95,6 +161,7 @@
           <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
           <Property Name="FechaVencimientoTemp" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="tRol" Relationship="Self.FK_tUsuario_tRol" FromRole="tUsuario" ToRole="tRol" />
+          <NavigationProperty Name="tCarrito" Relationship="KDataBaseModel.FK_tCarrito_tUsuario" FromRole="tUsuario" ToRole="tCarrito" />
         </EntityType>
         <Association Name="FK_tUsuario_tRol">
           <End Role="tRol" Type="Self.tRol" Multiplicity="1" />
@@ -138,6 +205,17 @@
             <Parameter Name="Consecutivo" Mode="In" Type="Int64" />
             <Parameter Name="ConsecutivoRol" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="tCarrito" EntityType="KDataBaseModel.tCarrito" />
+          <EntitySet Name="tError" EntityType="KDataBaseModel.tError" />
+          <EntitySet Name="tProducto" EntityType="KDataBaseModel.tProducto" />
+          <AssociationSet Name="FK_tCarrito_tProducto" Association="KDataBaseModel.FK_tCarrito_tProducto">
+            <End Role="tProducto" EntitySet="tProducto" />
+            <End Role="tCarrito" EntitySet="tCarrito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tCarrito_tUsuario" Association="KDataBaseModel.FK_tCarrito_tUsuario">
+            <End Role="tUsuario" EntitySet="tUsuario" />
+            <End Role="tCarrito" EntitySet="tCarrito" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="InicioSesion_Result">
           <Property Type="Int64" Name="Consecutivo" Nullable="false" />
@@ -151,6 +229,64 @@
           <Property Type="Boolean" Name="TieneContrasennaTemp" Nullable="false" />
           <Property Type="DateTime" Name="FechaVencimientoTemp" Nullable="false" Precision="23" />
         </ComplexType>
+        <EntityType Name="tCarrito">
+          <Key>
+            <PropertyRef Name="Consecutivo" />
+          </Key>
+          <Property Name="Consecutivo" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConsecutivoUsuario" Type="Int64" Nullable="false" />
+          <Property Name="ConsecutivoProducto" Type="Int64" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tProducto" Relationship="KDataBaseModel.FK_tCarrito_tProducto" FromRole="tCarrito" ToRole="tProducto" />
+          <NavigationProperty Name="tUsuario" Relationship="KDataBaseModel.FK_tCarrito_tUsuario" FromRole="tCarrito" ToRole="tUsuario" />
+        </EntityType>
+        <EntityType Name="tError">
+          <Key>
+            <PropertyRef Name="Consecutivo" />
+          </Key>
+          <Property Name="Consecutivo" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mensaje" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FechaHora" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Origen" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ConsecutivoUsuario" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tProducto">
+          <Key>
+            <PropertyRef Name="Consecutivo" />
+          </Key>
+          <Property Name="Consecutivo" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Precio" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Imagen" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tCarrito" Relationship="KDataBaseModel.FK_tCarrito_tProducto" FromRole="tProducto" ToRole="tCarrito" />
+        </EntityType>
+        <Association Name="FK_tCarrito_tProducto">
+          <End Type="KDataBaseModel.tProducto" Role="tProducto" Multiplicity="1" />
+          <End Type="KDataBaseModel.tCarrito" Role="tCarrito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tProducto">
+              <PropertyRef Name="Consecutivo" />
+            </Principal>
+            <Dependent Role="tCarrito">
+              <PropertyRef Name="ConsecutivoProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tCarrito_tUsuario">
+          <End Type="KDataBaseModel.tUsuario" Role="tUsuario" Multiplicity="1" />
+          <End Type="KDataBaseModel.tCarrito" Role="tCarrito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tUsuario">
+              <PropertyRef Name="Consecutivo" />
+            </Principal>
+            <Dependent Role="tCarrito">
+              <PropertyRef Name="ConsecutivoUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -199,6 +335,40 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="RegistroUsuario" FunctionName="KDataBaseModel.Store.RegistroUsuario" />
           <FunctionImportMapping FunctionImportName="ActualizarPerfil" FunctionName="KDataBaseModel.Store.ActualizarPerfil" />
+          <EntitySetMapping Name="tCarrito">
+            <EntityTypeMapping TypeName="KDataBaseModel.tCarrito">
+              <MappingFragment StoreEntitySet="tCarrito">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="ConsecutivoProducto" ColumnName="ConsecutivoProducto" />
+                <ScalarProperty Name="ConsecutivoUsuario" ColumnName="ConsecutivoUsuario" />
+                <ScalarProperty Name="Consecutivo" ColumnName="Consecutivo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tError">
+            <EntityTypeMapping TypeName="KDataBaseModel.tError">
+              <MappingFragment StoreEntitySet="tError">
+                <ScalarProperty Name="ConsecutivoUsuario" ColumnName="ConsecutivoUsuario" />
+                <ScalarProperty Name="Origen" ColumnName="Origen" />
+                <ScalarProperty Name="FechaHora" ColumnName="FechaHora" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+                <ScalarProperty Name="Consecutivo" ColumnName="Consecutivo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tProducto">
+            <EntityTypeMapping TypeName="KDataBaseModel.tProducto">
+              <MappingFragment StoreEntitySet="tProducto">
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Consecutivo" ColumnName="Consecutivo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

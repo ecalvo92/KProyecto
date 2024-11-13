@@ -29,6 +29,9 @@ namespace KWeb.Models
     
         public virtual DbSet<tRol> tRol { get; set; }
         public virtual DbSet<tUsuario> tUsuario { get; set; }
+        public virtual DbSet<tCarrito> tCarrito { get; set; }
+        public virtual DbSet<tError> tError { get; set; }
+        public virtual DbSet<tProducto> tProducto { get; set; }
     
         public virtual int ActualizarContrasenna(string contrasennaTemp, Nullable<bool> tieneContrasennaTemp, Nullable<System.DateTime> fechaVencimientoTemp, Nullable<long> consecutivo)
         {

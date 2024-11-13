@@ -1,0 +1,56 @@
+﻿@model KWeb.Models.Producto
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title fw-semibold mb-4">Actualizar Producto</h5>
+
+        @if (ViewBag.MensajePantalla != null)
+        {
+            <div class="alert alert-danger text-center" role="alert">
+                @ViewBag.MensajePantalla
+            </div>
+        }
+
+        @using (Html.BeginForm("ActualizarProducto", "Producto", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(m => m.Consecutivo)
+            @Html.HiddenFor(m => m.Imagen)
+
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-control" })
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Precio</label>
+                @Html.TextBoxFor(m => m.Precio, new { @class = "form-control" })
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Cantidad</label>
+                @Html.TextBoxFor(m => m.Cantidad, new { @class = "form-control" })
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Imagen</label>
+                <div class="row">
+                    <div class="col-9">
+                        <input type="file" id="ImagenProducto" name="ImagenProducto" class="form-control">
+                    </div>
+                    <div class="col-3">
+                        <img src="@Model.Imagen" style="width:175px; height:150px;" />
+                    </div>
+                </div>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Procesar</button>
+        }
+
+    </div>
+</div>
