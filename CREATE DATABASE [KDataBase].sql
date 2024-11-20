@@ -74,9 +74,24 @@ CREATE TABLE [dbo].[tUsuario](
 ) ON [PRIMARY]
 GO
 
+SET IDENTITY_INSERT [dbo].[tCarrito] ON 
+GO
+INSERT [dbo].[tCarrito] ([Consecutivo], [ConsecutivoUsuario], [ConsecutivoProducto], [Cantidad], [Fecha]) VALUES (10, 6, 4, 3, CAST(N'2024-11-19T20:33:38.763' AS DateTime))
+GO
+INSERT [dbo].[tCarrito] ([Consecutivo], [ConsecutivoUsuario], [ConsecutivoProducto], [Cantidad], [Fecha]) VALUES (11, 6, 2, 5, CAST(N'2024-11-19T20:36:41.710' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[tCarrito] OFF
+GO
+
 SET IDENTITY_INSERT [dbo].[tProducto] ON 
 GO
-INSERT [dbo].[tProducto] ([Consecutivo], [Nombre], [Descripcion], [Precio], [Cantidad], [Imagen]) VALUES (2, N'Sustagen', N'Es un alimento en polvo que ofrece un equilibrio de nutrientes para complementar la dieta habitual de niños, deportistas y personas debilitadas. Se presenta en latas de 200 o 450 gramos.', CAST(12500.00 AS Decimal(18, 2)), 25, N'/ImgProductos/2.jpg')
+INSERT [dbo].[tProducto] ([Consecutivo], [Nombre], [Descripcion], [Precio], [Cantidad], [Imagen]) VALUES (2, N'Sustagen 1', N'Es un alimento en polvo que ofrece un equilibrio de nutrientes para complementar la dieta habitual de niños, deportistas y personas debilitadas. Se presenta en latas de 200 o 450 gramos.', CAST(12500.00 AS Decimal(18, 2)), 25, N'/ImgProductos/2.jpg')
+GO
+INSERT [dbo].[tProducto] ([Consecutivo], [Nombre], [Descripcion], [Precio], [Cantidad], [Imagen]) VALUES (3, N'Sustagen 2', N'Es un alimento en polvo que ofrece un equilibrio de nutrientes para complementar la dieta habitual de niños, deportistas y personas debilitadas. Se presenta en latas de 200 o 450 gramos.', CAST(12500.00 AS Decimal(18, 2)), 25, N'/ImgProductos/2.jpg')
+GO
+INSERT [dbo].[tProducto] ([Consecutivo], [Nombre], [Descripcion], [Precio], [Cantidad], [Imagen]) VALUES (4, N'Sustagen 3', N'Es un alimento en polvo que ofrece un equilibrio de nutrientes para complementar la dieta habitual de niños, deportistas y personas debilitadas. Se presenta en latas de 200 o 450 gramos.', CAST(12500.00 AS Decimal(18, 2)), 25, N'/ImgProductos/2.jpg')
+GO
+INSERT [dbo].[tProducto] ([Consecutivo], [Nombre], [Descripcion], [Precio], [Cantidad], [Imagen]) VALUES (5, N'Sustagen 4', N'Es un alimento en polvo que ofrece un equilibrio de nutrientes para complementar la dieta habitual de niños, deportistas y personas debilitadas. Se presenta en latas de 200 o 450 gramos.', CAST(12500.00 AS Decimal(18, 2)), 25, N'/ImgProductos/2.jpg')
 GO
 SET IDENTITY_INSERT [dbo].[tProducto] OFF
 GO

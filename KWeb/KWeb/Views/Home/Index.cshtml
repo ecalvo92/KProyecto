@@ -67,13 +67,34 @@
         let cantidadDeseada = $("#" + Consecutivo).val();
 
         if (cantidadDeseada > CantidadDisponible) {
-
-            Swal.fire({
-                title: "Información",
-                text: "En este momento no contamos con la cantidad de unidades que desea adquirir",
-                icon: "info"
-            });
-
+            MostrarMensaje("En este momento no contamos con la cantidad de unidades que desea adquirir");
         }
+
+        if (cantidadDeseada <= 0) {
+            MostrarMensaje("La cantidad de unidades que desea adquirir no es permitida");
+        }
+
+        $.ajax({
+            url: '/Carrito/AgregarCarrito',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                "Consecutivo": Consecutivo,
+                "Cantidad": cantidadDeseada
+            },
+            success: function (data) {
+                MostrarMensaje(data);
+            }
+        });
+
     }
+
+    function MostrarMensaje(texto) {
+        Swal.fire({
+            title: "Información",
+            text: texto,
+            icon: "info"
+        });
+    }
+
 </script>
