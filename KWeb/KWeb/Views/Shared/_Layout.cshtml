@@ -1,11 +1,11 @@
 ﻿@{
     var imagenUsuario = "/Styles/images/user-1.jpg";
     var nombreUsuario = "Invitado";
-
+    
     if (Session["RolUsuario"] != null)
     {
         imagenUsuario = Session["ImagenUsuario"].ToString();
-        nombreUsuario = Session["NombreUsuario"].ToString();
+        nombreUsuario = Session["NombreUsuario"].ToString() + " / " + Session["NombreRolUsuario"].ToString();
     }
 }
 
@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="~/Styles/css/styles.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.min.css">
 </head>
 
 <body class="page-wrapper">
@@ -149,6 +150,6 @@
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.all.min.js"></script>
 </body>
 </html>

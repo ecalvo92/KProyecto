@@ -1,5 +1,79 @@
-﻿<main>
+﻿@model List<KWeb.Models.Producto>
 
-    ESTA ES LA VISTA INDEX
-   
-</main>
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        var descripcion = (@item.Descripcion.Length > 200 ? @item.Descripcion.Substring(0, 200) + "..." : @item.Descripcion);
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+
+            <div class="card">
+
+                <div style="text-align:center">
+                    <img src="@item.Imagen" class="card-img-top" style="width: 200px; height: 175px; margin-top:20px;">
+                </div>
+
+                <div class="card-body">
+
+                    <h5 class="card-title">@item.Nombre</h5>
+                    <p style="text-align:justify" class="card-text">@descripcion</p>
+
+                    <div class="row text-center">
+                        <div class="col-6">
+                            Unidades: @item.Cantidad
+                        </div>
+                        <div class="col-6">
+                            Precio: ¢@item.Precio.ToString("N2")
+                        </div>
+                    </div>
+
+                    @if (Session["RolUsuario"] != null)
+                    {
+                        <br />
+                        <div class="row">
+                            <div class="col-6">
+                                <input id=@item.Consecutivo type="number" class="form-control" style="text-align:center" value="0" min="1" max="@item.Cantidad" 
+                                       onkeypress="return ValidarNumero(this.id)">
+                            </div>
+                            <div class="col-6">
+                                <a onclick="AgregarProducto(@item.Consecutivo, @item.Cantidad)" class="card-link btn btn-outline-primary" style="width:100%">Añadir</a>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+</div>
+
+<script>
+    function ValidarNumero(evt) {
+
+        let charCode = (evt.which) ? evt.which : event.keyCode;
+
+        if (charCode >= 48 && charCode <= 57) {
+            return true;
+        }
+
+        return false;
+    }
+
+    function AgregarProducto(Consecutivo, CantidadDisponible) {
+
+        let cantidadDeseada = $("#" + Consecutivo).val();
+
+        if (cantidadDeseada > CantidadDisponible) {
+
+            Swal.fire({
+                title: "Información",
+                text: "En este momento no contamos con la cantidad de unidades que desea adquirir",
+                icon: "info"
+            });
+
+        }
+    }
+</script>

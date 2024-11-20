@@ -79,6 +79,7 @@ namespace KWeb.Controllers
             }
         }
 
+
         [HttpGet]
         [FiltroDirector]
         public ActionResult ActualizarUsuario(long q)
@@ -124,6 +125,7 @@ namespace KWeb.Controllers
                 return View();
             }
         }
+
 
         [HttpPost]
         [FiltroDirector]
