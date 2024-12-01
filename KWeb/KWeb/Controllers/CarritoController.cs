@@ -47,6 +47,35 @@ namespace KWeb.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult ConsultarCarrito()
+        {
+            using (var context = new KDataBaseEntities())
+            {
+                var consecutivoUsuarioLogueado = long.Parse(Session["Consecutivo"].ToString());
+
+                var datos = context.ConsultarCarritoUsuario(consecutivoUsuarioLogueado).ToList();
+
+                var carrito = new List<Carrito>();
+                foreach (var item in datos)
+                {
+                    carrito.Add(new Carrito
+                    {
+                        Consecutivo = item.Consecutivo,
+                        ConsecutivoUsuario = item.ConsecutivoUsuario,
+                        ConsecutivoProducto = item.ConsecutivoProducto,
+                        Precio = item.Precio,
+                        Cantidad = item.Cantidad,
+                        Fecha = item.Fecha,
+                        Total = item.Total,
+                        Nombre = item.Nombre
+                    });
+                }
+
+                return View(carrito);
+            }
+        }
+
         private void ActualizarCarrito()
         {
             using (var context = new KDataBaseEntities())

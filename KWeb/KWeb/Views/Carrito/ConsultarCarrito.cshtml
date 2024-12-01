@@ -1,0 +1,69 @@
+﻿@model List<KWeb.Models.Carrito>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Mi carrito</h5>
+
+        <div class="table-responsive">
+            <table id="example" class="table text-nowrap align-middle mb-0">
+                <thead>
+                    <tr class="border-2 border-bottom border-primary border-0">
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Fecha</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ConsecutivoProducto</td>
+                            <td>@item.Nombre</td>
+                            <td>@item.Fecha.ToString("dd/MM/yyyy hh:mm tt")</td>
+                            <td>¢ @item.Precio.ToString("N2")</td>
+                            <td>@item.Cantidad</td>
+                            <td>@item.Total</td>
+                            <td>
+
+                                <button type="button" class="btn abrirModal" data-bs-toggle="modal" data-bs-target="#modalCarrito"
+                                        data-id="@item.ConsecutivoProducto"
+                                        data-name="@item.Nombre">
+                                    <i class="fa fa-trash-o" style="font-size: 1.4em;"></i>
+                                </button>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCarrito" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Confirmación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            @using (Html.BeginForm("RemoverProductoCarrito", "Carrito"))
+            {
+                <div class="modal-body">
+                    @Html.Hidden("Consecutivo", "")
+                    ¿Desea remover el producto <label id="Nombre"></label> del carrito?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Procesar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/Styles/js/jquery.min.js"></script>
+<script src="~/Styles/FuncionesJS/ConsultarCarrito.js"></script>

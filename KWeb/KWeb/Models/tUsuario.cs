@@ -30,8 +30,8 @@ namespace KWeb.Models
         public bool TieneContrasennaTemp { get; set; }
         public System.DateTime FechaVencimientoTemp { get; set; }
     
-        public virtual tRol tRol { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tCarrito> tCarrito { get; set; }
+        public virtual tRol tRol { get; set; }
     }
 }
