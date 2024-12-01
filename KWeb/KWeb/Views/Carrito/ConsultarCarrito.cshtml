@@ -26,7 +26,7 @@
                             <td>@item.Fecha.ToString("dd/MM/yyyy hh:mm tt")</td>
                             <td>¢ @item.Precio.ToString("N2")</td>
                             <td>@item.Cantidad</td>
-                            <td>@item.Total</td>
+                            <td>¢ @item.Total.Value.ToString("N2")</td>
                             <td>
 
                                 <button type="button" class="btn abrirModal" data-bs-toggle="modal" data-bs-target="#modalCarrito"
@@ -41,6 +41,22 @@
                 </tbody>
             </table>
         </div>
+
+        <br /><br />
+
+        @if (Session["Total"].ToString() != null && Session["Total"].ToString() != "0")
+        {
+
+        <div class="row">
+            <div class="col-4">
+                <p style="font-size:14pt; margin-top:2%;">El monto a cancelar es de: <b>¢ @decimal.Parse(Session["Total"].ToString()).ToString("N2") </b></p>
+            </div>
+            <div class="col-8">
+                <button type="submit" class="btn btn-outline-primary" style="width:200px">Pagar</button>
+            </div>
+        </div>
+        }   
+
     </div>
 </div>
 
@@ -54,7 +70,7 @@
             @using (Html.BeginForm("RemoverProductoCarrito", "Carrito"))
             {
                 <div class="modal-body">
-                    @Html.Hidden("Consecutivo", "")
+                    @Html.Hidden("ConsecutivoProducto", "")
                     ¿Desea remover el producto <label id="Nombre"></label> del carrito?
                 </div>
                 <div class="modal-footer">

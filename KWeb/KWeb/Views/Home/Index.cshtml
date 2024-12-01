@@ -37,7 +37,7 @@
                                        onkeypress="return ValidarNumero(this.id)">
                             </div>
                             <div class="col-6">
-                                <a onclick="AgregarProducto(@item.Consecutivo, @item.Cantidad)" class="card-link btn btn-outline-primary" style="width:100%">Añadir</a>
+                                <a onclick="AgregarProducto(@item.Consecutivo, @item.Cantidad)" class="card-link btn btn-outline-primary" style="width:100%">Actualizar</a>
                             </div>
                         </div>
                     }
@@ -86,7 +86,7 @@
             },
             success: function (data) {
                 if (data == "OK") {
-                    MostrarMensajeOK("Producto actualizado correctamente en su carrito");
+                    MostrarMensajeOK("El Producto fue actualizado correctamente en su carrito");
                 }
                 else {
                     MostrarMensaje("El producto no se pudo actualizar en su carrito");

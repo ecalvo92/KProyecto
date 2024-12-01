@@ -47,6 +47,31 @@ namespace KWeb.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult RemoverProductoCarrito(Carrito model)
+        {
+            using (var context = new KDataBaseEntities())
+            {
+                var consecutivoUsuarioLogueado = long.Parse(Session["Consecutivo"].ToString());
+
+                var datos = context.tCarrito.Where(x => x.ConsecutivoProducto == model.ConsecutivoProducto
+                                                    && x.ConsecutivoUsuario == consecutivoUsuarioLogueado).FirstOrDefault();
+
+                if (datos != null)
+                {
+                    context.tCarrito.Remove(datos);
+                    context.SaveChanges();
+
+                    ActualizarCarrito();
+
+                    return RedirectToAction("ConsultarCarrito", "Carrito");
+                }
+
+                ViewBag.MensajePantalla = "El producto no se ha podido remover de su carrito";
+                return View();
+            }
+        }
+
         [HttpGet]
         public ActionResult ConsultarCarrito()
         {
