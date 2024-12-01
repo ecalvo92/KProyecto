@@ -2,14 +2,14 @@
     var imagenUsuario = "/Styles/images/user-1.jpg";
     var nombreUsuario = "Invitado";
     var cantidadProductos = "0";
-    var totalProductos = "0";
+    var totalProductos = "¢ 0";
 
     if (Session["RolUsuario"] != null)
     {
         imagenUsuario = Session["ImagenUsuario"].ToString();
         nombreUsuario = Session["NombreUsuario"].ToString() + " / " + Session["NombreRolUsuario"].ToString();
         cantidadProductos = Session["Cantidad"].ToString();
-        totalProductos = decimal.Parse(Session["Total"].ToString()).ToString("N2");
+        totalProductos = "¢ " + decimal.Parse(Session["Total"].ToString()).ToString("N2");
     }
 }
 
@@ -94,12 +94,14 @@
                             </a>
                         </li>
                     </ul>
+                    @if (Session["RolUsuario"] != null)
+                    {
+                        <i class="fa fa-tags" style="margin-right:10px"></i> @cantidadProductos
+                        <i class="fa fa-credit-card" style="margin-left:10px; margin-right:10px;"></i> @totalProductos
+                    }
+
                     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
-
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-
-                            @cantidadProductos
-                            @totalProductos
 
                             @nombreUsuario
 
