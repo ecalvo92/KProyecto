@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="KDataBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="KDataBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tCarrito">
           <Key>
             <PropertyRef Name="Consecutivo" />
@@ -15,6 +15,17 @@
           <Property Name="Cantidad" Type="int" Nullable="false" />
           <Property Name="Fecha" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="tDetalle">
+          <Key>
+            <PropertyRef Name="Consecutivo" />
+          </Key>
+          <Property Name="Consecutivo" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConsecutivoMaestro" Type="bigint" Nullable="false" />
+          <Property Name="ConsecutivoProducto" Type="bigint" Nullable="false" />
+          <Property Name="CantidadPagada" Type="int" Nullable="false" />
+          <Property Name="PrecioUnitarioPagado" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalProducto" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="tError">
           <Key>
             <PropertyRef Name="Consecutivo" />
@@ -24,6 +35,15 @@
           <Property Name="FechaHora" Type="datetime" Nullable="false" />
           <Property Name="Origen" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ConsecutivoUsuario" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tMaestro">
+          <Key>
+            <PropertyRef Name="Consecutivo" />
+          </Key>
+          <Property Name="Consecutivo" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConsecutivoUsuario" Type="bigint" Nullable="false" />
+          <Property Name="TotalPagado" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="FechaCompra" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="tProducto">
           <Key>
@@ -81,6 +101,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tDetalle_tMaestro">
+          <End Role="tMaestro" Type="Self.tMaestro" Multiplicity="1" />
+          <End Role="tDetalle" Type="Self.tDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMaestro">
+              <PropertyRef Name="Consecutivo" />
+            </Principal>
+            <Dependent Role="tDetalle">
+              <PropertyRef Name="ConsecutivoMaestro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tDetalle_tProducto">
+          <End Role="tProducto" Type="Self.tProducto" Multiplicity="1" />
+          <End Role="tDetalle" Type="Self.tDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tProducto">
+              <PropertyRef Name="Consecutivo" />
+            </Principal>
+            <Dependent Role="tDetalle">
+              <PropertyRef Name="ConsecutivoProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMaestro_tUsuario">
+          <End Role="tUsuario" Type="Self.tUsuario" Multiplicity="1" />
+          <End Role="tMaestro" Type="Self.tMaestro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tUsuario">
+              <PropertyRef Name="Consecutivo" />
+            </Principal>
+            <Dependent Role="tMaestro">
+              <PropertyRef Name="ConsecutivoUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tUsuario_tRol">
           <End Role="tRol" Type="Self.tRol" Multiplicity="1" />
           <End Role="tUsuario" Type="Self.tUsuario" Multiplicity="*" />
@@ -109,9 +165,18 @@
         <Function Name="ConsultarCarritoUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Consecutivo" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="ConsultarDetalleFactura" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ConsecutivoMaestro" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ConsultarFacturas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Consecutivo" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="InicioSesion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Identificacion" Type="varchar" Mode="In" />
           <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="PagarCarrito" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Consecutivo" Type="bigint" Mode="In" />
         </Function>
         <Function Name="RegistroUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Identificacion" Type="varchar" Mode="In" />
@@ -121,7 +186,9 @@
         </Function>
         <EntityContainer Name="KDataBaseModelStoreContainer">
           <EntitySet Name="tCarrito" EntityType="Self.tCarrito" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tDetalle" EntityType="Self.tDetalle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tError" EntityType="Self.tError" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tMaestro" EntityType="Self.tMaestro" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tProducto" EntityType="Self.tProducto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tRol" EntityType="Self.tRol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tUsuario" EntityType="Self.tUsuario" Schema="dbo" store:Type="Tables" />
@@ -133,13 +200,24 @@
             <End Role="tUsuario" EntitySet="tUsuario" />
             <End Role="tCarrito" EntitySet="tCarrito" />
           </AssociationSet>
+          <AssociationSet Name="FK_tDetalle_tMaestro" Association="Self.FK_tDetalle_tMaestro">
+            <End Role="tMaestro" EntitySet="tMaestro" />
+            <End Role="tDetalle" EntitySet="tDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tDetalle_tProducto" Association="Self.FK_tDetalle_tProducto">
+            <End Role="tProducto" EntitySet="tProducto" />
+            <End Role="tDetalle" EntitySet="tDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMaestro_tUsuario" Association="Self.FK_tMaestro_tUsuario">
+            <End Role="tUsuario" EntitySet="tUsuario" />
+            <End Role="tMaestro" EntitySet="tMaestro" />
+          </AssociationSet>
           <AssociationSet Name="FK_tUsuario_tRol" Association="Self.FK_tUsuario_tRol">
             <End Role="tRol" EntitySet="tRol" />
             <End Role="tUsuario" EntitySet="tUsuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KDataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -155,6 +233,19 @@
           <NavigationProperty Name="tProducto" Relationship="Self.FK_tCarrito_tProducto" FromRole="tCarrito" ToRole="tProducto" />
           <NavigationProperty Name="tUsuario" Relationship="Self.FK_tCarrito_tUsuario" FromRole="tCarrito" ToRole="tUsuario" />
         </EntityType>
+        <EntityType Name="tDetalle">
+          <Key>
+            <PropertyRef Name="Consecutivo" />
+          </Key>
+          <Property Name="Consecutivo" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConsecutivoMaestro" Type="Int64" Nullable="false" />
+          <Property Name="ConsecutivoProducto" Type="Int64" Nullable="false" />
+          <Property Name="CantidadPagada" Type="Int32" Nullable="false" />
+          <Property Name="PrecioUnitarioPagado" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="TotalProducto" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="tMaestro" Relationship="Self.FK_tDetalle_tMaestro" FromRole="tDetalle" ToRole="tMaestro" />
+          <NavigationProperty Name="tProducto" Relationship="Self.FK_tDetalle_tProducto" FromRole="tDetalle" ToRole="tProducto" />
+        </EntityType>
         <EntityType Name="tError">
           <Key>
             <PropertyRef Name="Consecutivo" />
@@ -164,6 +255,17 @@
           <Property Name="FechaHora" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Origen" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ConsecutivoUsuario" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tMaestro">
+          <Key>
+            <PropertyRef Name="Consecutivo" />
+          </Key>
+          <Property Name="Consecutivo" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConsecutivoUsuario" Type="Int64" Nullable="false" />
+          <Property Name="TotalPagado" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="FechaCompra" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tDetalle" Relationship="Self.FK_tDetalle_tMaestro" FromRole="tMaestro" ToRole="tDetalle" />
+          <NavigationProperty Name="tUsuario" Relationship="Self.FK_tMaestro_tUsuario" FromRole="tMaestro" ToRole="tUsuario" />
         </EntityType>
         <EntityType Name="tProducto">
           <Key>
@@ -176,6 +278,7 @@
           <Property Name="Cantidad" Type="Int32" Nullable="false" />
           <Property Name="Imagen" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="tCarrito" Relationship="Self.FK_tCarrito_tProducto" FromRole="tProducto" ToRole="tCarrito" />
+          <NavigationProperty Name="tDetalle" Relationship="Self.FK_tDetalle_tProducto" FromRole="tProducto" ToRole="tDetalle" />
         </EntityType>
         <EntityType Name="tRol">
           <Key>
@@ -199,6 +302,7 @@
           <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
           <Property Name="FechaVencimientoTemp" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="tCarrito" Relationship="Self.FK_tCarrito_tUsuario" FromRole="tUsuario" ToRole="tCarrito" />
+          <NavigationProperty Name="tMaestro" Relationship="Self.FK_tMaestro_tUsuario" FromRole="tUsuario" ToRole="tMaestro" />
           <NavigationProperty Name="tRol" Relationship="Self.FK_tUsuario_tRol" FromRole="tUsuario" ToRole="tRol" />
         </EntityType>
         <Association Name="FK_tCarrito_tProducto">
@@ -225,6 +329,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tDetalle_tMaestro">
+          <End Role="tMaestro" Type="Self.tMaestro" Multiplicity="1" />
+          <End Role="tDetalle" Type="Self.tDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tMaestro">
+              <PropertyRef Name="Consecutivo" />
+            </Principal>
+            <Dependent Role="tDetalle">
+              <PropertyRef Name="ConsecutivoMaestro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tDetalle_tProducto">
+          <End Role="tProducto" Type="Self.tProducto" Multiplicity="1" />
+          <End Role="tDetalle" Type="Self.tDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tProducto">
+              <PropertyRef Name="Consecutivo" />
+            </Principal>
+            <Dependent Role="tDetalle">
+              <PropertyRef Name="ConsecutivoProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tMaestro_tUsuario">
+          <End Role="tUsuario" Type="Self.tUsuario" Multiplicity="1" />
+          <End Role="tMaestro" Type="Self.tMaestro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tUsuario">
+              <PropertyRef Name="Consecutivo" />
+            </Principal>
+            <Dependent Role="tMaestro">
+              <PropertyRef Name="ConsecutivoUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tUsuario_tRol">
           <End Role="tRol" Type="Self.tRol" Multiplicity="1" />
           <End Role="tUsuario" Type="Self.tUsuario" Multiplicity="*" />
@@ -239,7 +379,9 @@
         </Association>
         <EntityContainer Name="KDataBaseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tCarrito" EntityType="Self.tCarrito" />
+          <EntitySet Name="tDetalle" EntityType="Self.tDetalle" />
           <EntitySet Name="tError" EntityType="Self.tError" />
+          <EntitySet Name="tMaestro" EntityType="Self.tMaestro" />
           <EntitySet Name="tProducto" EntityType="Self.tProducto" />
           <EntitySet Name="tRol" EntityType="Self.tRol" />
           <EntitySet Name="tUsuario" EntityType="Self.tUsuario" />
@@ -250,6 +392,18 @@
           <AssociationSet Name="FK_tCarrito_tUsuario" Association="Self.FK_tCarrito_tUsuario">
             <End Role="tUsuario" EntitySet="tUsuario" />
             <End Role="tCarrito" EntitySet="tCarrito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tDetalle_tMaestro" Association="Self.FK_tDetalle_tMaestro">
+            <End Role="tMaestro" EntitySet="tMaestro" />
+            <End Role="tDetalle" EntitySet="tDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tDetalle_tProducto" Association="Self.FK_tDetalle_tProducto">
+            <End Role="tProducto" EntitySet="tProducto" />
+            <End Role="tDetalle" EntitySet="tDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tMaestro_tUsuario" Association="Self.FK_tMaestro_tUsuario">
+            <End Role="tUsuario" EntitySet="tUsuario" />
+            <End Role="tMaestro" EntitySet="tMaestro" />
           </AssociationSet>
           <AssociationSet Name="FK_tUsuario_tRol" Association="Self.FK_tUsuario_tRol">
             <End Role="tRol" EntitySet="tRol" />
@@ -269,17 +423,26 @@
             <Parameter Name="ConsecutivoRol" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConsultarCarritoUsuario" ReturnType="Collection(KDataBaseModel.ConsultarCarritoUsuario_Result)">
-            <Parameter Name="Consecutivo" Mode="In" Type="Int64" />
+          <Parameter Name="Consecutivo" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="InicioSesion" ReturnType="Collection(KDataBaseModel.InicioSesion_Result)">
             <Parameter Name="Identificacion" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PagarCarrito">
+          <Parameter Name="Consecutivo" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="RegistroUsuario">
             <Parameter Name="Identificacion" Mode="In" Type="String" />
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarFacturas" ReturnType="Collection(KDataBaseModel.ConsultarFacturas_Result)">
+          <Parameter Name="Consecutivo" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarDetalleFactura" ReturnType="Collection(KDataBaseModel.ConsultarDetalleFactura_Result)">
+            <Parameter Name="ConsecutivoMaestro" Mode="In" Type="Int64" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="ConsultarCarritoUsuario_Result">
@@ -304,6 +467,19 @@
           <Property Type="Boolean" Name="TieneContrasennaTemp" Nullable="false" />
           <Property Type="DateTime" Name="FechaVencimientoTemp" Nullable="false" Precision="23" />
         </ComplexType>
+        <ComplexType Name="ConsultarFacturas_Result">
+          <Property Type="Int64" Name="ConsecutivoMaestro" Nullable="false" />
+          <Property Type="String" Name="NombreCliente" Nullable="false" MaxLength="255" />
+          <Property Type="Decimal" Name="Total" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="ConsultarDetalleFactura_Result">
+          <Property Type="Int64" Name="ConsecutivoMaestro" Nullable="false" />
+          <Property Type="String" Name="NombreProducto" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Cantidad" Nullable="false" />
+          <Property Type="Decimal" Name="Precio" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="Total" Nullable="false" Precision="18" Scale="2" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -321,6 +497,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tDetalle">
+            <EntityTypeMapping TypeName="KDataBaseModel.tDetalle">
+              <MappingFragment StoreEntitySet="tDetalle">
+                <ScalarProperty Name="Consecutivo" ColumnName="Consecutivo" />
+                <ScalarProperty Name="ConsecutivoMaestro" ColumnName="ConsecutivoMaestro" />
+                <ScalarProperty Name="ConsecutivoProducto" ColumnName="ConsecutivoProducto" />
+                <ScalarProperty Name="CantidadPagada" ColumnName="CantidadPagada" />
+                <ScalarProperty Name="PrecioUnitarioPagado" ColumnName="PrecioUnitarioPagado" />
+                <ScalarProperty Name="TotalProducto" ColumnName="TotalProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tError">
             <EntityTypeMapping TypeName="KDataBaseModel.tError">
               <MappingFragment StoreEntitySet="tError">
@@ -329,6 +517,16 @@
                 <ScalarProperty Name="FechaHora" ColumnName="FechaHora" />
                 <ScalarProperty Name="Origen" ColumnName="Origen" />
                 <ScalarProperty Name="ConsecutivoUsuario" ColumnName="ConsecutivoUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tMaestro">
+            <EntityTypeMapping TypeName="KDataBaseModel.tMaestro">
+              <MappingFragment StoreEntitySet="tMaestro">
+                <ScalarProperty Name="Consecutivo" ColumnName="Consecutivo" />
+                <ScalarProperty Name="ConsecutivoUsuario" ColumnName="ConsecutivoUsuario" />
+                <ScalarProperty Name="TotalPagado" ColumnName="TotalPagado" />
+                <ScalarProperty Name="FechaCompra" ColumnName="FechaCompra" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -399,7 +597,29 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PagarCarrito" FunctionName="KDataBaseModel.Store.PagarCarrito" />
           <FunctionImportMapping FunctionImportName="RegistroUsuario" FunctionName="KDataBaseModel.Store.RegistroUsuario" />
+          <FunctionImportMapping FunctionImportName="ConsultarFacturas" FunctionName="KDataBaseModel.Store.ConsultarFacturas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KDataBaseModel.ConsultarFacturas_Result">
+                <ScalarProperty Name="ConsecutivoMaestro" ColumnName="ConsecutivoMaestro" />
+                <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarDetalleFactura" FunctionName="KDataBaseModel.Store.ConsultarDetalleFactura">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KDataBaseModel.ConsultarDetalleFactura_Result">
+                <ScalarProperty Name="ConsecutivoMaestro" ColumnName="ConsecutivoMaestro" />
+                <ScalarProperty Name="NombreProducto" ColumnName="NombreProducto" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

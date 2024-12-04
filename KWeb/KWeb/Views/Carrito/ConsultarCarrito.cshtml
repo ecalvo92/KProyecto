@@ -52,8 +52,11 @@
                 <p style="font-size:14pt; margin-top:2%;">El monto a cancelar es de: <b>¢ @decimal.Parse(Session["Total"].ToString()).ToString("N2") </b></p>
             </div>
             <div class="col-8">
-                <button type="submit" class="btn btn-outline-primary" style="width:200px">Pagar</button>
-            </div>
+                @using (Html.BeginForm("PagarCarrito", "Carrito"))
+                {
+                    <button type="submit" class="btn btn-outline-primary" style="width:200px">Pagar</button>
+                }
+           </div>
         </div>
         }   
 

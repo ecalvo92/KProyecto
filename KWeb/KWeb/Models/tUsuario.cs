@@ -18,6 +18,7 @@ namespace KWeb.Models
         public tUsuario()
         {
             this.tCarrito = new HashSet<tCarrito>();
+            this.tMaestro = new HashSet<tMaestro>();
         }
     
         public long Consecutivo { get; set; }
@@ -32,6 +33,8 @@ namespace KWeb.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tCarrito> tCarrito { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tMaestro> tMaestro { get; set; }
         public virtual tRol tRol { get; set; }
     }
 }

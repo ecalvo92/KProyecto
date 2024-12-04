@@ -1,0 +1,35 @@
+﻿@model List<KWeb.Models.Compra>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Factura #@Model.FirstOrDefault().ConsecutivoMaestro</h5>
+
+        <div class="table-responsive">
+            <table id="example" class="table text-nowrap align-middle mb-0">
+                <thead>
+                    <tr class="border-2 border-bottom border-primary border-0">
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.NombreProducto</td>
+                            <td>@item.Cantidad</td>
+                            <td>¢ @item.Precio.ToString("N2")</td>
+                            <td>¢ @item.Total.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/Styles/js/jquery.min.js"></script>
+<script src="~/Styles/FuncionesJS/ConsultarDetalleFactura.js"></script>

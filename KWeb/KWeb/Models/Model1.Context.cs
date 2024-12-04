@@ -28,7 +28,9 @@ namespace KWeb.Models
         }
     
         public virtual DbSet<tCarrito> tCarrito { get; set; }
+        public virtual DbSet<tDetalle> tDetalle { get; set; }
         public virtual DbSet<tError> tError { get; set; }
+        public virtual DbSet<tMaestro> tMaestro { get; set; }
         public virtual DbSet<tProducto> tProducto { get; set; }
         public virtual DbSet<tRol> tRol { get; set; }
         public virtual DbSet<tUsuario> tUsuario { get; set; }
@@ -101,6 +103,15 @@ namespace KWeb.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InicioSesion_Result>("InicioSesion", identificacionParameter, contrasennaParameter);
         }
     
+        public virtual int PagarCarrito(Nullable<long> consecutivo)
+        {
+            var consecutivoParameter = consecutivo.HasValue ?
+                new ObjectParameter("Consecutivo", consecutivo) :
+                new ObjectParameter("Consecutivo", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PagarCarrito", consecutivoParameter);
+        }
+    
         public virtual int RegistroUsuario(string identificacion, string nombre, string correoElectronico, string contrasenna)
         {
             var identificacionParameter = identificacion != null ?
@@ -120,6 +131,24 @@ namespace KWeb.Models
                 new ObjectParameter("Contrasenna", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistroUsuario", identificacionParameter, nombreParameter, correoElectronicoParameter, contrasennaParameter);
+        }
+    
+        public virtual ObjectResult<ConsultarFacturas_Result> ConsultarFacturas(Nullable<long> consecutivo)
+        {
+            var consecutivoParameter = consecutivo.HasValue ?
+                new ObjectParameter("Consecutivo", consecutivo) :
+                new ObjectParameter("Consecutivo", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarFacturas_Result>("ConsultarFacturas", consecutivoParameter);
+        }
+    
+        public virtual ObjectResult<ConsultarDetalleFactura_Result> ConsultarDetalleFactura(Nullable<long> consecutivoMaestro)
+        {
+            var consecutivoMaestroParameter = consecutivoMaestro.HasValue ?
+                new ObjectParameter("ConsecutivoMaestro", consecutivoMaestro) :
+                new ObjectParameter("ConsecutivoMaestro", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarDetalleFactura_Result>("ConsultarDetalleFactura", consecutivoMaestroParameter);
         }
     }
 }

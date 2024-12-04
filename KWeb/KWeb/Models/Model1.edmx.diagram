@@ -4,14 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="27e501f2027d4d38b9f2cadab61d0792" Name="Diagram1">
-        <EntityTypeShape EntityType="KDataBaseModel.tCarrito" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="KDataBaseModel.tError" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KDataBaseModel.tProducto" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="KDataBaseModel.tRol" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KDataBaseModel.tUsuario" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+      <Diagram DiagramId="1fccc85704944f4787e85370211fb13a" Name="Diagram1">
+        <EntityTypeShape EntityType="KDataBaseModel.tCarrito" Width="1.5" PointX="5.25" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KDataBaseModel.tDetalle" Width="1.5" PointX="7.5" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KDataBaseModel.tError" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KDataBaseModel.tMaestro" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="KDataBaseModel.tProducto" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="KDataBaseModel.tRol" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KDataBaseModel.tUsuario" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
         <AssociationConnector Association="KDataBaseModel.FK_tCarrito_tProducto" ManuallyRouted="false" />
         <AssociationConnector Association="KDataBaseModel.FK_tCarrito_tUsuario" ManuallyRouted="false" />
+        <AssociationConnector Association="KDataBaseModel.FK_tDetalle_tMaestro" ManuallyRouted="false" />
+        <AssociationConnector Association="KDataBaseModel.FK_tDetalle_tProducto" ManuallyRouted="false" />
+        <AssociationConnector Association="KDataBaseModel.FK_tMaestro_tUsuario" ManuallyRouted="false" />
         <AssociationConnector Association="KDataBaseModel.FK_tUsuario_tRol" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

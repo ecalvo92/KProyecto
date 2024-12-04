@@ -101,6 +101,20 @@ namespace KWeb.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult PagarCarrito()
+        {
+            using (var context = new KDataBaseEntities())
+            {
+                var consecutivoUsuarioLogueado = long.Parse(Session["Consecutivo"].ToString());
+
+                context.PagarCarrito(consecutivoUsuarioLogueado);
+
+                ActualizarCarrito();
+                return RedirectToAction("ConsultarCarrito", "Carrito");
+            }
+        }
+
         private void ActualizarCarrito()
         {
             using (var context = new KDataBaseEntities())

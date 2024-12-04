@@ -12,25 +12,21 @@ namespace KWeb.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tProducto
+    public partial class tMaestro
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tProducto()
+        public tMaestro()
         {
-            this.tCarrito = new HashSet<tCarrito>();
             this.tDetalle = new HashSet<tDetalle>();
         }
     
         public long Consecutivo { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public decimal Precio { get; set; }
-        public int Cantidad { get; set; }
-        public string Imagen { get; set; }
+        public long ConsecutivoUsuario { get; set; }
+        public decimal TotalPagado { get; set; }
+        public System.DateTime FechaCompra { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tCarrito> tCarrito { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tDetalle> tDetalle { get; set; }
+        public virtual tUsuario tUsuario { get; set; }
     }
 }

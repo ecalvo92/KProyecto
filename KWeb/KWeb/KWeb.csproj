@@ -129,6 +129,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CarritoController.cs" />
+    <Compile Include="Controllers\ComprasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
@@ -137,7 +138,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Carrito.cs" />
+    <Compile Include="Models\Compra.cs" />
     <Compile Include="Models\ConsultarCarritoUsuario_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConsultarDetalleFactura_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConsultarFacturas_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FiltroDirector.cs" />
@@ -163,7 +171,13 @@
     <Compile Include="Models\tCarrito.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tDetalle.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tError.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tMaestro.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tProducto.cs">
@@ -235,6 +249,8 @@
     <Content Include="Styles\css\fonts\tabler-icons.svg" />
     <Content Include="Styles\css\tabler-icons.css" />
     <Content Include="Styles\FuncionesJS\ConsultarCarrito.js" />
+    <Content Include="Styles\FuncionesJS\ConsultarDetalleFactura.js" />
+    <Content Include="Styles\FuncionesJS\ConsultarFacturas.js" />
     <Content Include="Styles\FuncionesJS\ConsultarProductos.js" />
     <Content Include="Styles\FuncionesJS\ConsultarUsuarios.js" />
     <Content Include="Styles\images\logo-light.svg" />
@@ -276,6 +292,8 @@
     <Content Include="Views\Producto\AgregarProducto.cshtml" />
     <Content Include="Views\Producto\ActualizarProducto.cshtml" />
     <Content Include="Views\Carrito\ConsultarCarrito.cshtml" />
+    <Content Include="Views\Compras\ConsultarFacturas.cshtml" />
+    <Content Include="Views\Compras\ConsultarDetalles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
