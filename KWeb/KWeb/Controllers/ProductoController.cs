@@ -14,6 +14,8 @@ namespace KWeb.Controllers
     [OutputCache(NoStore = true, VaryByParam = "*", Duration = 0)]
     public class ProductoController : Controller
     {
+        MetodosComunes MC = new MetodosComunes();
+
         [HttpGet]
         public ActionResult ConsultarProductos()
         {
@@ -49,34 +51,44 @@ namespace KWeb.Controllers
         [HttpPost]
         public ActionResult AgregarProducto(Producto model, HttpPostedFileBase ImagenProducto)
         {
-            using (var context = new KDataBaseEntities())
-            {
-                var tabla = new tProducto();
-                tabla.Consecutivo = 0;
-                tabla.Nombre = model.Nombre;
-                tabla.Descripcion = model.Descripcion;
-                tabla.Precio = model.Precio;
-                tabla.Cantidad = model.Cantidad;
-                tabla.Imagen = string.Empty;
+            //try
+            //{
 
-                context.tProducto.Add(tabla);
-                var respuesta = context.SaveChanges();
-
-                if (respuesta > 0)
+                using (var context = new KDataBaseEntities())
                 {
-                    string extension = Path.GetExtension(ImagenProducto.FileName);
-                    string ruta = AppDomain.CurrentDomain.BaseDirectory + "ImgProductos\\" + tabla.Consecutivo + extension;
-                    ImagenProducto.SaveAs(ruta);
+                    var tabla = new tProducto();
+                    tabla.Consecutivo = 0;
+                    tabla.Nombre = model.Nombre;
+                    tabla.Descripcion = model.Descripcion;
+                    tabla.Precio = model.Precio;
+                    tabla.Cantidad = model.Cantidad;
+                    tabla.Imagen = string.Empty;
 
-                    tabla.Imagen = "/ImgProductos/" + tabla.Consecutivo + extension;
-                    context.SaveChanges();
+                    context.tProducto.Add(tabla);
+                    var respuesta = context.SaveChanges();
 
-                    return RedirectToAction("ConsultarProductos", "Producto");
+                    if (respuesta > 0)
+                    {
+                        string extension = Path.GetExtension(ImagenProducto.FileName);
+                        string ruta = AppDomain.CurrentDomain.BaseDirectory + "ImgProductos\\" + tabla.Consecutivo + extension;
+                        ImagenProducto.SaveAs(ruta);
+
+                        tabla.Imagen = "/ImgProductos/" + tabla.Consecutivo + extension;
+                        context.SaveChanges();
+
+                        return RedirectToAction("ConsultarProductos", "Producto");
+                    }
+
+                    ViewBag.MensajePantalla = "El producto no se ha podido registrar correctamente";
+                    return View();
                 }
 
-                ViewBag.MensajePantalla = "El producto no se ha podido registrar correctamente";
-                return View();
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MC.RegistrarErrorBD(ex.Message, "AgregarProducto", Session["Consecutivo"]);
+            //    return View("Error");
+            //}
         }
 
 

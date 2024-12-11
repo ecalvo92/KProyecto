@@ -13,6 +13,8 @@ namespace KWeb.Controllers
     [OutputCache(NoStore = true, VaryByParam = "*", Duration = 0)]
     public class LoginController : Controller
     {
+        MetodosComunes MC = new MetodosComunes();
+
         [HttpGet]
         public ActionResult RegistroUsuario()
         {
@@ -61,39 +63,49 @@ namespace KWeb.Controllers
         [HttpPost]
         public ActionResult InicioSesion(Usuario model)
         {
-            using (var context = new KDataBaseEntities())
+            try
             {
-                var datos = context.InicioSesion(model.Identificacion, model.Contrasenna).FirstOrDefault();
 
-                #region LinQ
-                //var datos = context.tUsuario.Where(x => x.Identificacion == model.Identificacion
-                //                                     && x.Contrasenna == model.Contrasenna
-                //                                     && x.Activo == true).FirstOrDefault();
-                #endregion
-
-                if (datos != null)
+                using (var context = new KDataBaseEntities())
                 {
-                    if (datos.TieneContrasennaTemp && datos.FechaVencimientoTemp < DateTime.Now)
-                    {
-                        ViewBag.MensajePantalla = "Sus credenciales de acceso han expirado.";
-                        return View();
-                    }
-                    else
-                    {
-                        Session["Consecutivo"] = datos.Consecutivo;
-                        Session["NombreUsuario"] = datos.Nombre;
-                        Session["ImagenUsuario"] = "/Styles/images/PerfilUsuario.jpg";
-                        Session["RolUsuario"] = datos.ConsecutivoRol;
-                        Session["NombreRolUsuario"] = datos.NombreRol;
+                    var datos = context.InicioSesion(model.Identificacion, model.Contrasenna).FirstOrDefault();
 
-                        ActualizarCarrito();
+                    #region LinQ
+                    //var datos = context.tUsuario.Where(x => x.Identificacion == model.Identificacion
+                    //                                     && x.Contrasenna == model.Contrasenna
+                    //                                     && x.Activo == true).FirstOrDefault();
+                    #endregion
 
-                        return RedirectToAction("Index", "Home");
+                    if (datos != null)
+                    {
+                        if (datos.TieneContrasennaTemp && datos.FechaVencimientoTemp < DateTime.Now)
+                        {
+                            ViewBag.MensajePantalla = "Sus credenciales de acceso han expirado.";
+                            return View();
+                        }
+                        else
+                        {
+                            Session["Consecutivo"] = datos.Consecutivo;
+                            Session["NombreUsuario"] = datos.Nombre;
+                            Session["ImagenUsuario"] = "/Styles/images/PerfilUsuario.jpg";
+                            Session["RolUsuario"] = datos.ConsecutivoRol;
+                            Session["NombreRolUsuario"] = datos.NombreRol;
+
+                            ActualizarCarrito();
+
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
+
+                    ViewBag.MensajePantalla = "Su información no se ha podido validar correctamente";
+                    return View();
                 }
 
-                ViewBag.MensajePantalla = "Su información no se ha podido validar correctamente";
-                return View();
+            }
+            catch (Exception ex)
+            {
+                MC.RegistrarErrorBD(ex.Message, "InicioSesion", Session["Consecutivo"]);
+                return View("Error");
             }
         }
 

@@ -112,7 +112,30 @@ INSERT [dbo].[tDetalle] ([Consecutivo], [ConsecutivoMaestro], [ConsecutivoProduc
 GO
 INSERT [dbo].[tDetalle] ([Consecutivo], [ConsecutivoMaestro], [ConsecutivoProducto], [CantidadPagada], [PrecioUnitarioPagado], [TotalProducto]) VALUES (7, 3, 4, 2, CAST(12500.00 AS Decimal(18, 2)), CAST(25000.00 AS Decimal(18, 2)))
 GO
+INSERT [dbo].[tDetalle] ([Consecutivo], [ConsecutivoMaestro], [ConsecutivoProducto], [CantidadPagada], [PrecioUnitarioPagado], [TotalProducto]) VALUES (8, 4, 3, 24, CAST(12500.00 AS Decimal(18, 2)), CAST(300000.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[tDetalle] ([Consecutivo], [ConsecutivoMaestro], [ConsecutivoProducto], [CantidadPagada], [PrecioUnitarioPagado], [TotalProducto]) VALUES (9, 5, 3, 1, CAST(12500.00 AS Decimal(18, 2)), CAST(12500.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[tDetalle] ([Consecutivo], [ConsecutivoMaestro], [ConsecutivoProducto], [CantidadPagada], [PrecioUnitarioPagado], [TotalProducto]) VALUES (10, 5, 4, 5, CAST(12500.00 AS Decimal(18, 2)), CAST(62500.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[tDetalle] ([Consecutivo], [ConsecutivoMaestro], [ConsecutivoProducto], [CantidadPagada], [PrecioUnitarioPagado], [TotalProducto]) VALUES (11, 6, 4, 3, CAST(12500.00 AS Decimal(18, 2)), CAST(37500.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[tDetalle] ([Consecutivo], [ConsecutivoMaestro], [ConsecutivoProducto], [CantidadPagada], [PrecioUnitarioPagado], [TotalProducto]) VALUES (12, 7, 4, 3, CAST(12500.00 AS Decimal(18, 2)), CAST(37500.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[tDetalle] ([Consecutivo], [ConsecutivoMaestro], [ConsecutivoProducto], [CantidadPagada], [PrecioUnitarioPagado], [TotalProducto]) VALUES (13, 8, 4, 3, CAST(12500.00 AS Decimal(18, 2)), CAST(37500.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[tDetalle] ([Consecutivo], [ConsecutivoMaestro], [ConsecutivoProducto], [CantidadPagada], [PrecioUnitarioPagado], [TotalProducto]) VALUES (14, 9, 4, 2, CAST(12500.00 AS Decimal(18, 2)), CAST(25000.00 AS Decimal(18, 2)))
+GO
 SET IDENTITY_INSERT [dbo].[tDetalle] OFF
+GO
+
+SET IDENTITY_INSERT [dbo].[tError] ON 
+GO
+INSERT [dbo].[tError] ([Consecutivo], [Mensaje], [FechaHora], [Origen], [ConsecutivoUsuario]) VALUES (1, N'An error occurred while executing the command definition. See the inner exception for details.', CAST(N'2024-12-10T19:35:45.893' AS DateTime), N'InicioSesion', 0)
+GO
+INSERT [dbo].[tError] ([Consecutivo], [Mensaje], [FechaHora], [Origen], [ConsecutivoUsuario]) VALUES (2, N'Referencia a objeto no establecida como instancia de un objeto.', CAST(N'2024-12-10T19:40:58.223' AS DateTime), N'AgregarProducto', 4)
+GO
+SET IDENTITY_INSERT [dbo].[tError] OFF
 GO
 
 SET IDENTITY_INSERT [dbo].[tMaestro] ON 
@@ -121,18 +144,34 @@ INSERT [dbo].[tMaestro] ([Consecutivo], [ConsecutivoUsuario], [TotalPagado], [Fe
 GO
 INSERT [dbo].[tMaestro] ([Consecutivo], [ConsecutivoUsuario], [TotalPagado], [FechaCompra]) VALUES (3, 2, CAST(312500.00 AS Decimal(18, 2)), CAST(N'2024-12-03T20:32:06.787' AS DateTime))
 GO
+INSERT [dbo].[tMaestro] ([Consecutivo], [ConsecutivoUsuario], [TotalPagado], [FechaCompra]) VALUES (4, 6, CAST(300000.00 AS Decimal(18, 2)), CAST(N'2024-12-10T18:33:53.110' AS DateTime))
+GO
+INSERT [dbo].[tMaestro] ([Consecutivo], [ConsecutivoUsuario], [TotalPagado], [FechaCompra]) VALUES (5, 6, CAST(75000.00 AS Decimal(18, 2)), CAST(N'2024-12-10T18:36:26.027' AS DateTime))
+GO
+INSERT [dbo].[tMaestro] ([Consecutivo], [ConsecutivoUsuario], [TotalPagado], [FechaCompra]) VALUES (6, 4, CAST(37500.00 AS Decimal(18, 2)), CAST(N'2024-12-10T18:39:20.073' AS DateTime))
+GO
+INSERT [dbo].[tMaestro] ([Consecutivo], [ConsecutivoUsuario], [TotalPagado], [FechaCompra]) VALUES (7, 6, CAST(37500.00 AS Decimal(18, 2)), CAST(N'2024-12-10T18:39:53.820' AS DateTime))
+GO
+INSERT [dbo].[tMaestro] ([Consecutivo], [ConsecutivoUsuario], [TotalPagado], [FechaCompra]) VALUES (8, 4, CAST(37500.00 AS Decimal(18, 2)), CAST(N'2024-12-10T18:44:34.607' AS DateTime))
+GO
+INSERT [dbo].[tMaestro] ([Consecutivo], [ConsecutivoUsuario], [TotalPagado], [FechaCompra]) VALUES (9, 6, CAST(25000.00 AS Decimal(18, 2)), CAST(N'2024-12-10T19:06:15.983' AS DateTime))
+GO
 SET IDENTITY_INSERT [dbo].[tMaestro] OFF
 GO
 
 SET IDENTITY_INSERT [dbo].[tProducto] ON 
 GO
-INSERT [dbo].[tProducto] ([Consecutivo], [Nombre], [Descripcion], [Precio], [Cantidad], [Imagen]) VALUES (2, N'Sustagen 1', N'Es un alimento en polvo que ofrece un equilibrio de nutrientes para complementar la dieta habitual de niños, deportistas y personas debilitadas. Se presenta en latas de 200 o 450 gramos.', CAST(12500.00 AS Decimal(18, 2)), 0, N'/ImgProductos/2.jpg')
+INSERT [dbo].[tProducto] ([Consecutivo], [Nombre], [Descripcion], [Precio], [Cantidad], [Imagen]) VALUES (2, N'Sustagen 1', N'Es un alimento en polvo que ofrece un equilibrio de nutrientes para complementar la dieta habitual de niños, deportistas y personas debilitadas. Se presenta en latas de 200 o 450 gramos.', CAST(12500.00 AS Decimal(18, 2)), 2, N'/ImgProductos/2.jpg')
 GO
-INSERT [dbo].[tProducto] ([Consecutivo], [Nombre], [Descripcion], [Precio], [Cantidad], [Imagen]) VALUES (3, N'Sustagen 2', N'Es un alimento en polvo que ofrece un equilibrio de nutrientes para complementar la dieta habitual de niños, deportistas y personas debilitadas. Se presenta en latas de 200 o 450 gramos.', CAST(12500.00 AS Decimal(18, 2)), 24, N'/ImgProductos/2.jpg')
+INSERT [dbo].[tProducto] ([Consecutivo], [Nombre], [Descripcion], [Precio], [Cantidad], [Imagen]) VALUES (3, N'Sustagen 2', N'Es un alimento en polvo que ofrece un equilibrio de nutrientes para complementar la dieta habitual de niños, deportistas y personas debilitadas. Se presenta en latas de 200 o 450 gramos.', CAST(12500.00 AS Decimal(18, 2)), 4, N'/ImgProductos/2.jpg')
 GO
-INSERT [dbo].[tProducto] ([Consecutivo], [Nombre], [Descripcion], [Precio], [Cantidad], [Imagen]) VALUES (4, N'Sustagen 3', N'Es un alimento en polvo que ofrece un equilibrio de nutrientes para complementar la dieta habitual de niños, deportistas y personas debilitadas. Se presenta en latas de 200 o 450 gramos.', CAST(12500.00 AS Decimal(18, 2)), 23, N'/ImgProductos/2.jpg')
+INSERT [dbo].[tProducto] ([Consecutivo], [Nombre], [Descripcion], [Precio], [Cantidad], [Imagen]) VALUES (4, N'Sustagen 3', N'Es un alimento en polvo que ofrece un equilibrio de nutrientes para complementar la dieta habitual de niños, deportistas y personas debilitadas. Se presenta en latas de 200 o 450 gramos.', CAST(12500.00 AS Decimal(18, 2)), 6, N'/ImgProductos/2.jpg')
 GO
-INSERT [dbo].[tProducto] ([Consecutivo], [Nombre], [Descripcion], [Precio], [Cantidad], [Imagen]) VALUES (5, N'Sustagen 4', N'Es un alimento en polvo que ofrece un equilibrio de nutrientes para complementar la dieta habitual de niños, deportistas y personas debilitadas. Se presenta en latas de 200 o 450 gramos.', CAST(12500.00 AS Decimal(18, 2)), 0, N'/ImgProductos/2.jpg')
+INSERT [dbo].[tProducto] ([Consecutivo], [Nombre], [Descripcion], [Precio], [Cantidad], [Imagen]) VALUES (5, N'Sustagen 4', N'Es un alimento en polvo que ofrece un equilibrio de nutrientes para complementar la dieta habitual de niños, deportistas y personas debilitadas. Se presenta en latas de 200 o 450 gramos.', CAST(12500.00 AS Decimal(18, 2)), 8, N'/ImgProductos/2.jpg')
+GO
+INSERT [dbo].[tProducto] ([Consecutivo], [Nombre], [Descripcion], [Precio], [Cantidad], [Imagen]) VALUES (6, N'Play Station 5', N'adsdsa', CAST(123213.00 AS Decimal(18, 2)), 12321, N'')
+GO
+INSERT [dbo].[tProducto] ([Consecutivo], [Nombre], [Descripcion], [Precio], [Cantidad], [Imagen]) VALUES (7, N'Play Station 5', N'dasdsadsadsa', CAST(123213.00 AS Decimal(18, 2)), 12321, N'')
 GO
 SET IDENTITY_INSERT [dbo].[tProducto] OFF
 GO
@@ -378,6 +417,20 @@ BEGIN
 		INSERT INTO dbo.tUsuario (Identificacion,Nombre,CorreoElectronico,Contrasenna, ConsecutivoRol,Activo,TieneContrasennaTemp,FechaVencimientoTemp)
 		VALUES (@Identificacion,@Nombre,@CorreoElectronico,@Contrasenna,2,1,0,GETDATE())
 	END
+
+END
+GO
+
+CREATE PROCEDURE [dbo].[ValidarCantidadInventario]
+	@ConsecutivoUsuario BIGINT
+AS
+BEGIN
+	
+	SELECT	C.Cantidad 'CANTIDAD_DESEADA', P.Cantidad 'CANTIDAD_DISPONIBLE'
+	FROM	tCarrito C
+	INNER	JOIN tProducto P ON C.ConsecutivoProducto = P.Consecutivo
+	WHERE	C.Cantidad > P.Cantidad
+		AND C.ConsecutivoUsuario = @ConsecutivoUsuario
 
 END
 GO
