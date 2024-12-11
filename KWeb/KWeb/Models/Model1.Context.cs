@@ -150,5 +150,14 @@ namespace KWeb.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarDetalleFactura_Result>("ConsultarDetalleFactura", consecutivoMaestroParameter);
         }
+    
+        public virtual ObjectResult<ValidarCantidadInventario_Result> ValidarCantidadInventario(Nullable<long> consecutivoUsuario)
+        {
+            var consecutivoUsuarioParameter = consecutivoUsuario.HasValue ?
+                new ObjectParameter("ConsecutivoUsuario", consecutivoUsuario) :
+                new ObjectParameter("ConsecutivoUsuario", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ValidarCantidadInventario_Result>("ValidarCantidadInventario", consecutivoUsuarioParameter);
+        }
     }
 }

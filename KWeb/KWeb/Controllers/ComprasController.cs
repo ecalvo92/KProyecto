@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace KWeb.Controllers
 {
+    [OutputCache(NoStore = true, VaryByParam = "*", Duration = 0)]
     public class ComprasController : Controller
     {
         [HttpGet]

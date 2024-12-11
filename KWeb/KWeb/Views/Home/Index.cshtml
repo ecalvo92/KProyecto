@@ -34,7 +34,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <input id=@item.Consecutivo type="number" class="form-control" style="text-align:center" value="0" min="1" max="@item.Cantidad" 
-                                       onkeypress="return ValidarNumero(this.id)">
+                                       onkeypress="return false">
                             </div>
                             <div class="col-6">
                                 <a onclick="AgregarProducto(@item.Consecutivo, @item.Cantidad)" class="card-link btn btn-outline-primary" style="width:100%">Actualizar</a>

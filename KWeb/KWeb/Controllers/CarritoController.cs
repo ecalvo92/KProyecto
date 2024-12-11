@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace KWeb.Controllers
 {
+    [OutputCache(NoStore = true, VaryByParam = "*", Duration = 0)]
     public class CarritoController : Controller
     {
         [HttpPost]
@@ -75,30 +76,7 @@ namespace KWeb.Controllers
         [HttpGet]
         public ActionResult ConsultarCarrito()
         {
-            using (var context = new KDataBaseEntities())
-            {
-                var consecutivoUsuarioLogueado = long.Parse(Session["Consecutivo"].ToString());
-
-                var datos = context.ConsultarCarritoUsuario(consecutivoUsuarioLogueado).ToList();
-
-                var carrito = new List<Carrito>();
-                foreach (var item in datos)
-                {
-                    carrito.Add(new Carrito
-                    {
-                        Consecutivo = item.Consecutivo,
-                        ConsecutivoUsuario = item.ConsecutivoUsuario,
-                        ConsecutivoProducto = item.ConsecutivoProducto,
-                        Precio = item.Precio,
-                        Cantidad = item.Cantidad,
-                        Fecha = item.Fecha,
-                        Total = item.Total,
-                        Nombre = item.Nombre
-                    });
-                }
-
-                return View(carrito);
-            }
+            return View(ConsultarDatosCarrito());
         }
 
         [HttpPost]
@@ -108,10 +86,20 @@ namespace KWeb.Controllers
             {
                 var consecutivoUsuarioLogueado = long.Parse(Session["Consecutivo"].ToString());
 
-                context.PagarCarrito(consecutivoUsuarioLogueado);
+                var validacion = context.ValidarCantidadInventario(consecutivoUsuarioLogueado).ToList();
 
-                ActualizarCarrito();
-                return RedirectToAction("ConsultarCarrito", "Carrito");
+                if (validacion.Count() == 0)
+                {
+                    context.PagarCarrito(consecutivoUsuarioLogueado);
+                    ActualizarCarrito();
+                    return RedirectToAction("ConsultarCarrito", "Carrito");
+                }
+                else
+                {
+                    ViewBag.MensajePantalla = "No se ha podido realizar el pago de su carrito, valide la disponibilidad de sus productos";
+                    return View("ConsultarCarrito", ConsultarDatosCarrito());
+                }
+                
             }
         }
 
@@ -142,6 +130,34 @@ namespace KWeb.Controllers
                     Session["Total"] = 0;
                 }
 
+            }
+        }
+
+        private List<Carrito> ConsultarDatosCarrito()
+        {
+            using (var context = new KDataBaseEntities())
+            {
+                var consecutivoUsuarioLogueado = long.Parse(Session["Consecutivo"].ToString());
+
+                var datos = context.ConsultarCarritoUsuario(consecutivoUsuarioLogueado).ToList();
+
+                var carrito = new List<Carrito>();
+                foreach (var item in datos)
+                {
+                    carrito.Add(new Carrito
+                    {
+                        Consecutivo = item.Consecutivo,
+                        ConsecutivoUsuario = item.ConsecutivoUsuario,
+                        ConsecutivoProducto = item.ConsecutivoProducto,
+                        Precio = item.Precio,
+                        Cantidad = item.Cantidad,
+                        Fecha = item.Fecha,
+                        Total = item.Total,
+                        Nombre = item.Nombre
+                    });
+                }
+
+                return carrito;
             }
         }
 

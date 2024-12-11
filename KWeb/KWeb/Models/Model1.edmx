@@ -184,6 +184,9 @@
           <Parameter Name="CorreoElectronico" Type="varchar" Mode="In" />
           <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="ValidarCantidadInventario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ConsecutivoUsuario" Type="bigint" Mode="In" />
+        </Function>
         <EntityContainer Name="KDataBaseModelStoreContainer">
           <EntitySet Name="tCarrito" EntityType="Self.tCarrito" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tDetalle" EntityType="Self.tDetalle" Schema="dbo" store:Type="Tables" />
@@ -442,7 +445,10 @@
           <Parameter Name="Consecutivo" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ConsultarDetalleFactura" ReturnType="Collection(KDataBaseModel.ConsultarDetalleFactura_Result)">
-            <Parameter Name="ConsecutivoMaestro" Mode="In" Type="Int64" />
+          <Parameter Name="ConsecutivoMaestro" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ValidarCantidadInventario" ReturnType="Collection(KDataBaseModel.ValidarCantidadInventario_Result)">
+            <Parameter Name="ConsecutivoUsuario" Mode="In" Type="Int64" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="ConsultarCarritoUsuario_Result">
@@ -479,6 +485,10 @@
           <Property Type="Int32" Name="Cantidad" Nullable="false" />
           <Property Type="Decimal" Name="Precio" Nullable="false" Precision="18" Scale="2" />
           <Property Type="Decimal" Name="Total" Nullable="false" Precision="18" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="ValidarCantidadInventario_Result">
+          <Property Type="Int32" Name="CANTIDAD_DESEADA" Nullable="false" />
+          <Property Type="Int32" Name="CANTIDAD_DISPONIBLE" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -617,6 +627,14 @@
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
                 <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ValidarCantidadInventario" FunctionName="KDataBaseModel.Store.ValidarCantidadInventario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KDataBaseModel.ValidarCantidadInventario_Result">
+                <ScalarProperty Name="CANTIDAD_DESEADA" ColumnName="CANTIDAD_DESEADA" />
+                <ScalarProperty Name="CANTIDAD_DISPONIBLE" ColumnName="CANTIDAD_DISPONIBLE" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

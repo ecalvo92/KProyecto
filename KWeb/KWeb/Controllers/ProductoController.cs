@@ -10,7 +10,8 @@ using System.Web.UI.WebControls;
 
 namespace KWeb.Controllers
 {
-    [FiltroDirectorMedico]
+    [FiltroDirector]
+    [OutputCache(NoStore = true, VaryByParam = "*", Duration = 0)]
     public class ProductoController : Controller
     {
         [HttpGet]

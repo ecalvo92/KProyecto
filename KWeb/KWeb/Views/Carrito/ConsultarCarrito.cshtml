@@ -4,6 +4,13 @@
     <div class="card-body">
         <h5 class="card-title">Mi carrito</h5>
 
+        @if (ViewBag.MensajePantalla != null)
+        {
+            <div class="alert alert-danger text-center" role="alert">
+                @ViewBag.MensajePantalla
+            </div>
+        }
+
         <div class="table-responsive">
             <table id="example" class="table text-nowrap align-middle mb-0">
                 <thead>
@@ -47,18 +54,18 @@
         @if (Session["Total"].ToString() != null && Session["Total"].ToString() != "0")
         {
 
-        <div class="row">
-            <div class="col-4">
-                <p style="font-size:14pt; margin-top:2%;">El monto a cancelar es de: <b>¢ @decimal.Parse(Session["Total"].ToString()).ToString("N2") </b></p>
+            <div class="row">
+                <div class="col-4">
+                    <p style="font-size:14pt; margin-top:2%;">El monto a cancelar es de: <b>¢ @decimal.Parse(Session["Total"].ToString()).ToString("N2") </b></p>
+                </div>
+                <div class="col-8">
+                    @using (Html.BeginForm("PagarCarrito", "Carrito"))
+                    {
+                        <button type="submit" class="btn btn-outline-primary" style="width:200px">Pagar</button>
+                    }
+                </div>
             </div>
-            <div class="col-8">
-                @using (Html.BeginForm("PagarCarrito", "Carrito"))
-                {
-                    <button type="submit" class="btn btn-outline-primary" style="width:200px">Pagar</button>
-                }
-           </div>
-        </div>
-        }   
+        }
 
     </div>
 </div>
